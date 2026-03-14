@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Abdul Rafay — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700;900&family=JetBrains+Mono:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400;1,600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<canvas id="starfield"></canvas>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="toast"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#" onclick="return goHome()">Abdul Rafay</a>
+  <ul class="nav-links">
+    <li><a href="#about" onclick="goHome()">About</a></li>
+    <li><a href="#projects" onclick="goHome()">Projects</a></li>
+    <li><a href="#art" onclick="goHome()">Art</a></li>
+    <li><a href="#blog" onclick="goHome()">Blog</a></li>
+    <li><a href="#contact" onclick="goHome()">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a class="nav-btn" onclick="showPage('blog')">Blog</a>
+    <a class="nav-btn admin-btn" onclick="showPage('admin')">⚙ Admin</a>
+  </div>
+</nav>
+
+<!-- ==================== HOME PAGE ==================== -->
+<div id="home-page" class="page active">
+
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb"></div>
+
+  <!-- Primary rune ring -->
+  <svg class="rune-ring" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <defs><path id="ring-path" d="M 200,10 a 190,190 0 1,1 -0.01,0"/></defs>
+    <circle cx="200" cy="200" r="190" fill="none" stroke="#d4a843" stroke-width="1"/>
+    <circle cx="200" cy="200" r="160" fill="none" stroke="#d4a843" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="130" fill="none" stroke="#d4a843" stroke-width="0.3"/>
+    <!-- Notches -->
+    <g stroke="#d4a843" stroke-width="1">
+      <line x1="200" y1="10"  x2="200" y2="25"/>
+      <line x1="390" y1="200" x2="375" y2="200"/>
+      <line x1="200" y1="390" x2="200" y2="375"/>
+      <line x1="10"  y1="200" x2="25"  y2="200"/>
+      <line x1="334" y1="66"  x2="323" y2="77"/>
+      <line x1="334" y1="334" x2="323" y2="323"/>
+      <line x1="66"  y1="334" x2="77"  y2="323"/>
+      <line x1="66"  y1="66"  x2="77"  y2="77"/>
+    </g>
+    <text font-family="UnifrakturMaguntia" font-size="20" fill="#d4a843">
+      <textPath href="#ring-path">✦ Code ✦ Art ✦ Craft ✦ Design ✦ Vision ✦ Build ✦ Create ✦ Dream ✦ </textPath>
+    </text>
+  </svg>
+
+  <!-- Counter-rotating second ring -->
+  <svg class="rune-ring-2" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+    <defs><path id="ring-path2" d="M 150,8 a 142,142 0 1,1 -0.01,0"/></defs>
+    <circle cx="150" cy="150" r="142" fill="none" stroke="#d4a843" stroke-width="0.8" stroke-dasharray="4 12"/>
+    <text font-family="UnifrakturMaguntia" font-size="16" fill="#d4a843">
+      <textPath href="#ring-path2">— Rafay — Engineer — Artist — Creator — Pakistan —</textPath>
+    </text>
+  </svg>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow">Portfolio · Est. 2022 · Pakistan</div>
+    <div class="hero-title">Abdul<span> Rafay</span></div>
+    <div class="hero-title-sub">Rafay</div>
+    <div class="hero-title-gothic">Forged at the crossroads of Code & Canvas</div>
+    <p class="hero-desc">Full-Stack Developer &amp; Gold Medalist Artist — crafting digital experiences where engineering precision meets artistic vision.</p>
+    <div class="hero-badges">
+      <span class="badge gold">🥇 Gold Medalist</span>
+      <span class="badge">Full Stack Dev</span>
+      <span class="badge">UI/UX Designer</span>
+      <span class="badge">Digital Artist</span>
+    </div>
+    <div class="hero-btns">
+      <a href="#projects" class="btn btn-gold" onclick="goHome()">View My Work</a>
+      <a href="#contact" class="btn btn-ghost" onclick="goHome()">Get in Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="avatar-3d-wrap" id="avatar3d">
+      <div class="avatar-3d-inner">
+        <div class="avatar-frame">
+          
+          <img class="avatar-photo" src="rafay.jpg" alt="Abdul Rafay"/>
+        
+          <span class="corner-rune tl">✦</span>
+          <span class="corner-rune tr">✦</span>
+          <span class="corner-rune bl">✦</span>
+          <span class="corner-rune br">✦</span>
+        </div>
+      </div>
+      <div class="avatar-glow"></div>
+
+      <div class="particle-ring">
+        <div class="particle" style="top:0;left:50%;"></div>
+        <div class="particle" style="top:50%;right:0;"></div>
+        <div class="particle" style="bottom:0;left:50%;"></div>
+        <div class="particle" style="top:50%;left:0;"></div>
+        <div class="particle" style="top:15%;left:85%;"></div>
+        <div class="particle" style="top:85%;left:15%;"></div>
+      </div>
+      <div class="float-chip chip-medal">
+        <strong>🥇</strong>
+        <span>Gold Medalist</span>
+      </div>
+      <div class="float-chip chip-code">
+        <strong>30+</strong>
+        <span>Projects</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-ind">
+    <div class="scroll-line"></div>
+    <span>Scroll Down</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label reveal">01 — About</div>
+  <div class="section-title reveal">About Me</div>
+  <div class="section-subtitle reveal">Where code meets canvas</div>
+  <div class="about-layout">
+    <div class="about-text reveal">
+      <p>Greetings — I'm <strong>Abdul Rafay</strong>, a passionate full-stack developer and <strong>gold medalist artist</strong> from Pakistan. I build clean, high-performance applications with a meticulous eye for design and user experience.</p>
+      <p>My code is as considered as my art. Whether I'm architecting a backend system or sketching a digital canvas, I bring the same level of <strong>intentionality and craft</strong> to every project.</p>
+      <p>The best digital products live at the <strong>intersection of engineering precision and artistic vision</strong>. That is the space I inhabit — and where I do my finest work.</p>
+      <div class="skills-section">
+        <div class="skills-heading">✦ Technical Proficiency</div>
+        <div class="skill-row"><span class="skill-name">JavaScript</span><div class="skill-bar"><div class="skill-fill" data-w="0.92"><div class="skill-dot"></div></div></div><span class="skill-pct">92%</span></div>
+        <div class="skill-row"><span class="skill-name">React</span><div class="skill-bar"><div class="skill-fill" data-w="0.88"><div class="skill-dot"></div></div></div><span class="skill-pct">88%</span></div>
+        <div class="skill-row"><span class="skill-name">Node.js</span><div class="skill-bar"><div class="skill-fill" data-w="0.85"><div class="skill-dot"></div></div></div><span class="skill-pct">85%</span></div>
+        <div class="skill-row"><span class="skill-name">Python</span><div class="skill-bar"><div class="skill-fill" data-w="0.80"><div class="skill-dot"></div></div></div><span class="skill-pct">80%</span></div>
+        <div class="skill-row"><span class="skill-name">UI / UX</span><div class="skill-bar"><div class="skill-fill" data-w="0.90"><div class="skill-dot"></div></div></div><span class="skill-pct">90%</span></div>
+        <div class="skill-row"><span class="skill-name">Digital Art</span><div class="skill-bar"><div class="skill-fill" data-w="0.95"><div class="skill-dot"></div></div></div><span class="skill-pct">95%</span></div>
+      </div>
+    </div>
+    <div class="stats-grid reveal" style="transition-delay:0.2s">
+      <div class="stat-block"><strong>30+</strong><span>Projects Delivered</span></div>
+      <div class="stat-block"><strong>3+</strong><span>Years Experience</span></div>
+      <div class="stat-block"><strong>5+</strong><span>Happy Clients</span></div>
+      <div class="stat-block"><strong>∞</strong><span>Ideas</span></div>
+      <div class="stat-block wide">
+        <div class="medal-content">
+          <span class="medal-icon">🥇</span>
+          <div>
+            <strong style="font-size:1.3rem;">Gold Medalist</strong>
+            <span>Fine Arts &amp; Digital Illustration — Awarded for exceptional creative excellence</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gothic-divider">✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦</div>
+
+<!-- PROJECTS -->
+<section id="projects" style="position:relative;">
+  <div class="projects-section-bg"></div>
+  <!-- 3D floating hex decorations -->
+  <svg class="geo-float" style="top:5%;right:2%;width:120px;height:120px;" viewBox="0 0 100 100">
+    <polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" fill="none" stroke="#d4a843" stroke-width="1"/>
+    <polygon points="50,20 80,35 80,65 50,80 20,65 20,35" fill="none" stroke="#d4a843" stroke-width="0.5"/>
+  </svg>
+  <svg class="geo-float" style="bottom:10%;left:1%;width:80px;height:80px;animation-delay:-3s;" viewBox="0 0 100 100">
+    <rect x="10" y="10" width="80" height="80" fill="none" stroke="#d4a843" stroke-width="1" transform="rotate(45 50 50)"/>
+    <rect x="25" y="25" width="50" height="50" fill="none" stroke="#d4a843" stroke-width="0.5" transform="rotate(45 50 50)"/>
+  </svg>
+
+  <div class="section-label reveal">02 — Projects</div>
+  <div class="section-title reveal">My Work</div>
+  <div class="section-subtitle reveal">Code forged with purpose and precision</div>
+
+  <div class="projects-grid">
+    <!-- Featured project -->
+    <div class="proj-card proj-featured reveal">
+      <div class="proj-visual">
+        <div class="proj-visual-inner">
+          <div class="code-lines">
+            <span style="color:rgba(0,229,255,0.7)">// E-Commerce Platform</span><br/>
+            &gt; npm run build<br/>
+            <span style="color:rgba(212,168,67,0.8)">✓ compiled 847 modules</span><br/>
+            ✓ optimized in 1.2s<br/>
+            <span style="color:rgba(0,229,255,0.7)">&gt; deploy --production</span><br/>
+            <span style="color:rgba(212,168,67,0.8)">✓ deployed to edge CDN</span><br/>
+            🚀 live · 99.9% uptime<br/>
+            <span style="color:rgba(180,115,51,0.6)">&gt; metrics --dashboard</span><br/>
+            ✓ 12k daily active users<br/>
+            <span style="color:rgba(212,168,67,0.8)">✓ avg load: 0.8s</span>
+          </div>
+        </div>
+      </div>
+      <div class="proj-content">
+        <div class="proj-num">001 — Featured</div>
+        <span class="proj-icon">🛒</span>
+        <h3 class="proj-title">E-Commerce Platform with AI Recommendations</h3>
+        <p class="proj-desc">Full-stack platform built with Next.js, Node.js and PostgreSQL. Features real-time inventory, AI product recommendations, and a custom admin panel.</p>
+        <div class="proj-tags"><span class="proj-tag">Next.js</span><span class="proj-tag">Node.js</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">AI/ML</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/abdulrafayau" target="_blank">→ GitHub</a><a class="proj-link" href="#">→ Live Demo</a></div>
+      </div>
+    </div>
+
+    <!-- Project 002 -->
+    <div class="proj-card reveal" style="transition-delay:0.08s">
+      <div class="proj-num">002</div>
+      <span class="proj-icon">💬</span>
+      <h3 class="proj-title">Real-Time Chat Application</h3>
+      <p class="proj-desc">WebSocket-powered chat with end-to-end encryption, file sharing, and voice notes. Handles 10k+ concurrent users.</p>
+      <div class="proj-tags"><span class="proj-tag">React</span><span class="proj-tag">Socket.io</span><span class="proj-tag">Redis</span></div>
+      <div class="proj-links"><a class="proj-link" href="https://github.com/abdulrafayau" target="_blank">→ GitHub</a></div>
+    </div>
+
+    <!-- Project 003 -->
+    <div class="proj-card reveal" style="transition-delay:0.14s">
+      <div class="proj-num">003</div>
+      <span class="proj-icon">🎨</span>
+      <h3 class="proj-title">AI Art Generator Tool</h3>
+      <p class="proj-desc">Browser-based generative art tool using ML models to create artwork from text prompts. Built for artists and non-artists alike.</p>
+      <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">FastAPI</span><span class="proj-tag">React</span></div>
+      <div class="proj-links"><a class="proj-link" href="https://github.com/abdulrafayau" target="_blank">→ GitHub</a></div>
+    </div>
+
+    <!-- Project 004 -->
+    <div class="proj-card reveal" style="transition-delay:0.20s">
+      <div class="proj-num">004</div>
+      <span class="proj-icon">📊</span>
+      <h3 class="proj-title">Portfolio CMS Dashboard</h3>
+      <p class="proj-desc">Headless CMS for creatives with drag-and-drop layout builder, media management, and built-in analytics.</p>
+      <div class="proj-tags"><span class="proj-tag">Vue.js</span><span class="proj-tag">Strapi</span><span class="proj-tag">MongoDB</span></div>
+      <div class="proj-links"><a class="proj-link" href="https://github.com/abdulrafayau" target="_blank">→ GitHub</a></div>
+    </div>
+
+    <!-- Project 005 -->
+    <div class="proj-card reveal" style="transition-delay:0.26s">
+      <div class="proj-num">005</div>
+      <span class="proj-icon">✅</span>
+      <h3 class="proj-title">Task Management SaaS</h3>
+      <p class="proj-desc">Kanban-style project management with team collaboration, time tracking, reporting, and Slack integration.</p>
+      <div class="proj-tags"><span class="proj-tag">TypeScript</span><span class="proj-tag">Next.js</span><span class="proj-tag">Prisma</span></div>
+      <div class="proj-links"><a class="proj-link" href="https://github.com/abdulrafayau" target="_blank">→ GitHub</a></div>
+    </div>
+
+    <!-- Project 006 -->
+    <div class="proj-card reveal" style="transition-delay:0.32s">
+      <div class="proj-num">006</div>
+      <span class="proj-icon">🤖</span>
+      <h3 class="proj-title">Intelligent Study Assistant</h3>
+      <p class="proj-desc">AI-powered study companion that generates quizzes, summarises PDFs, and creates personalised learning paths.</p>
+      <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">LangChain</span><span class="proj-tag">React</span></div>
+      <div class="proj-links"><a class="proj-link" href="https://github.com/abdulrafayau" target="_blank">→ GitHub</a></div>
+    </div>
+
+    <!-- Project 007 — NEW -->
+    <div class="proj-card reveal" style="transition-delay:0.38s">
+      <div class="proj-num">007</div>
+      <span class="proj-icon">🌐</span>
+      <h3 class="proj-title">Social Media Analytics Engine</h3>
+      <p class="proj-desc">Real-time social analytics dashboard with sentiment analysis, trend prediction, and multi-platform data aggregation.</p>
+      <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">D3.js</span><span class="proj-tag">FastAPI</span><span class="proj-tag">NLP</span></div>
+      <div class="proj-links"><a class="proj-link" href="https://github.com/abdulrafayau" target="_blank">→ GitHub</a></div>
+    </div>
+
+    <!-- Project 008 — NEW -->
+    <div class="proj-card reveal" style="transition-delay:0.44s">
+      <div class="proj-num">008</div>
+      <span class="proj-icon">🔐</span>
+      <h3 class="proj-title">Secure Auth Microservice</h3>
+      <p class="proj-desc">Modular authentication microservice supporting OAuth2, TOTP 2FA, JWT refresh flows, and role-based access control.</p>
+      <div class="proj-tags"><span class="proj-tag">Node.js</span><span class="proj-tag">JWT</span><span class="proj-tag">Docker</span><span class="proj-tag">Redis</span></div>
+      <div class="proj-links"><a class="proj-link" href="https://github.com/abdulrafayau" target="_blank">→ GitHub</a></div>
+    </div>
+
+    <!-- Project 009 — NEW -->
+    <div class="proj-card reveal" style="transition-delay:0.50s">
+      <div class="proj-num">009</div>
+      <span class="proj-icon">🎵</span>
+      <h3 class="proj-title">Generative Music Visualiser</h3>
+      <p class="proj-desc">WebGL-based audio visualiser that translates music frequencies into real-time 3D particle systems and geometric art.</p>
+      <div class="proj-tags"><span class="proj-tag">WebGL</span><span class="proj-tag">Web Audio API</span><span class="proj-tag">Three.js</span></div>
+      <div class="proj-links"><a class="proj-link" href="https://github.com/abdulrafayau" target="_blank">→ GitHub</a><a class="proj-link" href="#">→ Live Demo</a></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:3.5rem;" class="reveal">
+    <a href="https://github.com/abdulrafayau" target="_blank" class="btn btn-ghost" style="text-decoration:none">View All on GitHub →</a>
+  </div>
+</section>
+
+<div class="gothic-divider">✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦</div>
+
+<!-- ART GALLERY -->
+<section id="art">
+  <div class="section-label reveal">03 — Art Gallery</div>
+  <div class="section-title reveal">The Gallery</div>
+  <div class="section-subtitle reveal">Gold medal works &amp; digital explorations</div>
+  <div class="medal-proclamation reveal">
+    <span class="m-icon">🥇</span>
+    <p><strong>Gold Medalist in Fine Arts &amp; Digital Illustration</strong> — Abdul Rafay has been honoured with the prestigious gold medal for excellence in visual art. His work spans generative algorithms, digital painting, and conceptual illustration — each piece carrying the same rigour and intentionality as his engineering work.</p>
+  </div>
+  <div class="gallery-grid reveal">
+    <div class="gal-item" style="grid-row:1/3">
+      <div class="gal-bg" style="height:100%;background:linear-gradient(160deg,#06001a,#180030,#0a0020);display:flex;align-items:center;justify-content:center;font-size:6rem;opacity:0.55;">🌌</div>
+      <div class="gal-overlay"><h4>Cosmos Series I</h4><p>Digital Illustration · 2024</p></div>
+    </div>
+    <div class="gal-item">
+      <div class="gal-bg" style="height:100%;background:linear-gradient(160deg,#001508,#002a14,#001808);display:flex;align-items:center;justify-content:center;font-size:4.5rem;opacity:0.55;">🌿</div>
+      <div class="gal-overlay"><h4>Organic Forms</h4><p>Mixed Media · 2024</p></div>
+    </div>
+    <div class="gal-item">
+      <div class="gal-bg" style="height:100%;background:linear-gradient(160deg,#1a0800,#2a1200,#180a00);display:flex;align-items:center;justify-content:center;font-size:4.5rem;opacity:0.55;">🔮</div>
+      <div class="gal-overlay"><h4>Geometric Dreams</h4><p>Digital Art · 2023</p></div>
+    </div>
+    <div class="gal-item" style="grid-row:1/3">
+      <div class="gal-bg" style="height:100%;background:linear-gradient(160deg,#100020,#200030,#0e001e);display:flex;align-items:center;justify-content:center;font-size:6rem;opacity:0.55;">✨</div>
+      <div class="gal-overlay"><h4>Light Fractals</h4><p>Generative Art · 2024</p></div>
+    </div>
+    <div class="gal-item">
+      <div class="gal-bg" style="height:100%;background:linear-gradient(160deg,#00101a,#001a2a,#000e18);display:flex;align-items:center;justify-content:center;font-size:4.5rem;opacity:0.55;">🌊</div>
+      <div class="gal-overlay"><h4>Fluid Dynamics</h4><p>Digital Painting · 2023</p></div>
+    </div>
+    <div class="gal-item">
+      <div class="gal-bg" style="height:100%;background:linear-gradient(160deg,#1a0000,#2a0008,#180000);display:flex;align-items:center;justify-content:center;font-size:4.5rem;opacity:0.55;">🔥</div>
+      <div class="gal-overlay"><h4>Ember Studies</h4><p>Illustration · 2024</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="gothic-divider">✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦</div>
+
+<!-- BLOG PREVIEW -->
+<section id="blog">
+  <div class="section-label reveal">04 — Blog</div>
+  <div class="section-title reveal">Dispatches</div>
+  <div class="section-subtitle reveal">Thoughts on code, art, and the craft of building</div>
+  <div class="blog-layout reveal">
+    <div class="blog-feat" onclick="viewPost(0)" style="cursor:none;">
+      <div class="blog-feat-img"><div class="blog-feat-img-text">{ CODE }</div></div>
+      <div class="blog-feat-body">
+        <div class="blog-meta-row"><span class="blog-cat">Engineering</span><span class="blog-date">Mar 12, 2025</span></div>
+        <h3 class="blog-feat-title">Building Scalable Systems: Lessons from 3 Years of Production Code</h3>
+        <p class="blog-feat-excerpt">The hard-won lessons about system design, failure modes, and what "scalable" actually means when you're shipping real products to real users.</p>
+        <a class="blog-read-more" href="#">Read Article →</a>
+      </div>
+    </div>
+    <div class="blog-side">
+      <div class="blog-mini" onclick="viewPost(1)">
+        <div class="blog-meta-row" style="margin-bottom:0.7rem;"><span class="blog-cat">Design</span><span class="blog-date">Feb 28, 2025</span></div>
+        <h4>Why Every Developer Should Learn Design Fundamentals</h4>
+        <p>The overlap between engineering and aesthetics is where the magic happens...</p>
+      </div>
+      <div class="blog-mini" onclick="viewPost(2)">
+        <div class="blog-meta-row" style="margin-bottom:0.7rem;"><span class="blog-cat">Art</span><span class="blog-date">Feb 14, 2025</span></div>
+        <h4>Generative Art: Where Algorithms Meet Creativity</h4>
+        <p>The beautiful chaos that emerges when code becomes the brush...</p>
+      </div>
+      <div class="blog-mini" onclick="viewPost(3)">
+        <div class="blog-meta-row" style="margin-bottom:0.7rem;"><span class="blog-cat">Career</span><span class="blog-date">Jan 30, 2025</span></div>
+        <h4>From Gold Medal to GitHub: My Unconventional Path</h4>
+        <p>How fine arts training made me a better engineer...</p>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:3rem;" class="reveal">
+    <a class="btn btn-ghost" onclick="showPage('blog')" href="#" style="text-decoration:none">View All Posts →</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label reveal">05 — Contact</div>
+  <div class="section-title reveal">Let's Connect</div>
+  <div class="section-subtitle reveal">Open to projects, collaborations, and conversations</div>
+  <div class="contact-layout">
+    <div class="reveal contact-left">
+      <p>Whether you have a project in mind, want to collaborate on something extraordinary, or simply wish to talk code and art — my door is always open.</p>
+      <div class="social-list">
+        <a class="soc-item" href="https://www.linkedin.com/in/abdulrafayqar/" target="_blank">
+          <div class="soc-icon">in</div>
+          <div><span class="soc-name">LinkedIn</span><span class="soc-handle">abdulrafayqar</span></div>
+          <span class="soc-arrow">→</span>
+        </a>
+        <a class="soc-item" href="https://github.com/abdulrafayau" target="_blank">
+          <div class="soc-icon">gh</div>
+          <div><span class="soc-name">GitHub</span><span class="soc-handle">abdulrafayau</span></div>
+          <span class="soc-arrow">→</span>
+        </a>
+        <a class="soc-item" href="mailto:abdulrafay@example.com">
+          <div class="soc-icon">@</div>
+          <div><span class="soc-name">Email</span><span class="soc-handle">abdulrafay@email.com</span></div>
+          <span class="soc-arrow">→</span>
+        </a>
+      </div>
+    </div>
+    <form class="contact-form reveal" onsubmit="handleContact(event)" style="transition-delay:0.2s">
+      <div class="cf-row">
+        <div class="cf-group"><label>Name</label><input type="text" placeholder="Your name" required/></div>
+        <div class="cf-group"><label>Email</label><input type="email" placeholder="your@email.com" required/></div>
+      </div>
+      <div class="cf-group"><label>Subject</label><input type="text" placeholder="Project / Collaboration / Hello"/></div>
+      <div class="cf-group"><label>Message</label><textarea placeholder="Tell me about your project..."></textarea></div>
+      <button class="btn-send" type="submit">Send Message →</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">Abdul Rafay</span>
+  <div class="footer-links">
+    <a href="https://github.com/abdulrafayau" target="_blank">GitHub</a>
+    <a href="https://www.linkedin.com/in/abdulrafayqar/" target="_blank">LinkedIn</a>
+    <a onclick="showPage('blog')" href="#">Blog</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <span class="footer-copy">© 2025 Abdul Rafay · Crafted with ♥</span>
+</footer>
+
+</div><!-- /home-page -->
+
+<!-- ==================== BLOG PAGE ==================== -->
+<div id="blog-page" class="page">
+  <div class="bph">
+    <button class="back-link" onclick="showPage('home')">← Return to Portfolio</button>
+    <div class="section-label">The Blog</div>
+    <div class="section-title" style="font-size:3.5rem;">Dispatches</div>
+    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--muted);font-size:1rem;margin-top:0.5rem;">Code, art, and everything in between.</p>
+    <div class="blog-search-bar">
+      <input type="text" id="bsearch" placeholder="Search the archives..." oninput="renderBlog()"/>
+    </div>
+    <div class="cat-filters">
+      <button class="cat-btn on" onclick="setCat(this,'all')">All Posts</button>
+      <button class="cat-btn" onclick="setCat(this,'engineering')">Engineering</button>
+      <button class="cat-btn" onclick="setCat(this,'design')">Design</button>
+      <button class="cat-btn" onclick="setCat(this,'art')">Art</button>
+      <button class="cat-btn" onclick="setCat(this,'career')">Career</button>
+    </div>
+  </div>
+  <div class="posts-grid" id="posts-grid"></div>
+</div>
+
+<!-- ==================== POST PAGE ==================== -->
+<div id="post-page" class="page">
+  <div class="post-hero-sec">
+    <button class="back-link bph" onclick="showPage('blog')" style="background:none;border:none;cursor:none;font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:0.5rem;padding:0;margin-bottom:2rem;transition:color 0.2s;">← Back to Blog</button>
+    <div id="ph-meta" style="display:flex;align-items:center;gap:1rem;"></div>
+    <h1 id="ph-title"></h1>
+    <div id="ph-info" style="display:flex;gap:2rem;margin-top:1.5rem;font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);"></div>
+  </div>
+  <div class="post-body-sec" id="post-body-content"></div>
+</div>
+
+<!-- ==================== ADMIN PAGE ==================== -->
+<div id="admin-page" class="page">
+  <div id="admin-login-screen">
+    <div class="admin-login-wrap">
+      <div class="admin-login-box" id="login-box">
+        <div class="admin-badge">⚙ Restricted Access</div>
+        <h2>Admin Panel</h2>
+        <div class="contact-form" style="display:flex;flex-direction:column;gap:1.2rem;">
+          <div class="cf-group">
+            <label>Password</label>
+            <input type="password" id="admin-pass" placeholder="Enter password..." onkeydown="if(event.key==='Enter')adminLogin()"/>
+          </div>
+          <button class="btn-send" onclick="adminLogin()">Access Panel →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="admin-panel-ui" style="display:none;">
+    <div class="admin-panel-header">
+      <div>
+        <div class="admin-badge">⚙ Admin Panel</div>
+        <h1>Post Manager</h1>
+      </div>
+      <button class="btn btn-ghost" onclick="adminLogout()" style="cursor:none;border:1px solid var(--border2);color:var(--muted);padding:0.5rem 1.5rem;background:transparent;font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;transition:all 0.2s;">Logout</button>
+    </div>
+    <div class="admin-panel-body">
+      <div class="admin-box">
+        <h2 id="admin-form-h">✦ New Post</h2>
+        <input type="hidden" id="edit-id"/>
+        <div class="contact-form" style="display:flex;flex-direction:column;gap:1.1rem;">
+          <div class="cf-group"><label>Title</label><input type="text" id="p-title" placeholder="Post title..."/></div>
+          <div class="cf-group"><label>Category</label>
+            <select id="p-cat" style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:0.9rem;font-family:'JetBrains Mono',monospace;font-size:0.78rem;outline:none;cursor:none;width:100%;">
+              <option value="engineering">Engineering</option>
+              <option value="design">Design</option>
+              <option value="art">Art</option>
+              <option value="career">Career</option>
+            </select>
+          </div>
+          <div class="cf-group"><label>Excerpt</label><input type="text" id="p-excerpt" placeholder="Brief description..."/></div>
+          <div class="cf-group"><label>Content</label><textarea id="p-content" style="height:200px;background:var(--card);border:1px solid var(--border);color:var(--text);padding:0.9rem;font-family:'JetBrains Mono',monospace;font-size:0.75rem;outline:none;resize:none;cursor:none;width:100%;line-height:1.7;" placeholder="Write your post...&#10;## Heading&#10;```code block```"></textarea></div>
+          <div class="cf-row">
+            <div class="cf-group"><label>Read Time</label><input type="text" id="p-time" placeholder="5 min read"/></div>
+            <div class="cf-group"><label>Icon</label><input type="text" id="p-icon" placeholder="🚀"/></div>
+          </div>
+          <button class="btn-send" onclick="savePost()">Publish Post →</button>
+          <button id="cancel-edit-btn" onclick="cancelEdit()" style="display:none;background:transparent;border:1px solid var(--border2);color:var(--muted);padding:0.7rem;font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;cursor:none;transition:all 0.2s;">Cancel Edit</button>
+        </div>
+      </div>
+      <div class="admin-box">
+        <h2>✦ Published Posts</h2>
+        <div id="admin-posts-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== HASHED PASSWORD =====
+// Password: rafay@pindi  — stored as SHA-256 hash only
+const ADMIN_HASH = 'b8273740c1d333a4c2b742380d87aa6e31416899da58ce641fe4d35eb56d9618';
+
+async function hashStr(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+// ===== AUDIO ENGINE (Web Audio API — no external files needed) =====
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
+
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new AudioCtx();
+  return audioCtx;
+}
+
+function playTone(freq, type = 'sine', duration = 0.08, gain = 0.06) {
+  try {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    osc.connect(g);
+    g.connect(ctx.destination);
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    g.gain.setValueAtTime(gain, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+    osc.start();
+    osc.stop(ctx.currentTime + duration);
+  } catch(e) {}
+}
+
+function playHoverSound() {
+  playTone(880, 'sine', 0.06, 0.04);
+}
+function playClickSound() {
+  playTone(660, 'triangle', 0.12, 0.07);
+  setTimeout(() => playTone(990, 'sine', 0.08, 0.04), 30);
+}
+function playSuccessSound() {
+  playTone(523, 'sine', 0.15, 0.06);
+  setTimeout(() => playTone(659, 'sine', 0.15, 0.06), 120);
+  setTimeout(() => playTone(784, 'sine', 0.2,  0.06), 240);
+}
+function playErrorSound() {
+  playTone(200, 'sawtooth', 0.15, 0.06);
+  setTimeout(() => playTone(160, 'sawtooth', 0.15, 0.06), 100);
+}
+
+// Attach hover sounds to all interactive elements
+function attachSounds() {
+  const hoverSel = 'a, button, .proj-card, .gal-item, .blog-feat, .blog-mini, .post-card, .soc-item, .stat-block, .cat-btn, .admin-item, .nav-btn, .badge';
+  document.querySelectorAll(hoverSel).forEach(el => {
+    el.addEventListener('mouseenter', () => { document.body.classList.add('hovering'); playHoverSound(); });
+    el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+    el.addEventListener('click', () => playClickSound());
+  });
+}
+
+// ===== CUSTOM CURSOR =====
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0, my=0, rx=0, ry=0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+});
+function animRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+
+// ===== 3D STARFIELD =====
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+let W, H, stars = [];
+function initStars() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  stars = [];
+  for (let i = 0; i < 260; i++) {
+    stars.push({
+      x: (Math.random() - 0.5) * W * 2.2,
+      y: (Math.random() - 0.5) * H * 2.2,
+      z: Math.random() * W,
+      speed: Math.random() * 0.5 + 0.15,
+      size: Math.random() * 1.6 + 0.3,
+      hue: Math.random() < 0.15 ? 200 : 42  // mostly gold, some cyan
+    });
+  }
+}
+window.addEventListener('resize', initStars);
+initStars();
+let mouseX = 0, mouseY = 0;
+document.addEventListener('mousemove', e => {
+  mouseX = (e.clientX / window.innerWidth  - 0.5) * 0.5;
+  mouseY = (e.clientY / window.innerHeight - 0.5) * 0.5;
+});
+function drawStars() {
+  ctx.clearRect(0, 0, W, H);
+  stars.forEach(s => {
+    s.z -= s.speed;
+    if (s.z <= 0) s.z = W;
+    const px = (s.x / s.z) * W + W/2 + mouseX * 100;
+    const py = (s.y / s.z) * H + H/2 + mouseY * 100;
+    const r = s.size * (1 - s.z / W);
+    const alpha = 1 - s.z / W;
+    if (px < -10 || px > W+10 || py < -10 || py > H+10) return;
+    const grd = ctx.createRadialGradient(px, py, 0, px, py, r * 3);
+    const col = s.hue === 200
+      ? `rgba(0,229,255,${alpha * 0.7})`
+      : `rgba(212,168,67,${alpha * 0.9})`;
+    grd.addColorStop(0, col);
+    grd.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.beginPath(); ctx.arc(px, py, r*3, 0, Math.PI*2);
+    ctx.fillStyle = grd; ctx.fill();
+    ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI*2);
+    const cc = s.hue === 200 ? `rgba(180,240,255,${alpha})` : `rgba(255,240,200,${alpha})`;
+    ctx.fillStyle = cc; ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+// ===== 3D AVATAR TILT =====
+const av3d = document.getElementById('avatar3d');
+if (av3d) {
+  document.addEventListener('mousemove', e => {
+    const el = av3d.querySelector('.avatar-3d-inner');
+    if (!el) return;
+    const rect = av3d.getBoundingClientRect();
+    const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+    const dx = (e.clientX - cx) / rect.width;
+    const dy = (e.clientY - cy) / rect.height;
+    el.style.transform = `rotateY(${dx*14}deg) rotateX(${-dy*10}deg)`;
+  });
+  document.addEventListener('mouseleave', () => {
+    const el = av3d.querySelector('.avatar-3d-inner');
+    if (el) el.style.transform = 'rotateY(0) rotateX(0)';
+  });
+}
+
+// ===== 3D CARD TILT on proj-cards =====
+document.querySelectorAll('.proj-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width  - 0.5;
+    const y = (e.clientY - r.top)  / r.height - 0.5;
+    card.style.transform = `translateY(-10px) rotateY(${x*10}deg) rotateX(${-y*8}deg)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+// ===== INTERSECTION OBSERVER =====
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      e.target.querySelectorAll('.skill-fill').forEach(b => {
+        setTimeout(() => b.classList.add('go'), 300);
+      });
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ===== SMOOTH SCROLL =====
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const h = a.getAttribute('href');
+    if (h === '#' || !document.querySelector(h)) return;
+    e.preventDefault();
+    document.querySelector(h).scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// ===== PAGE ROUTING =====
+function showPage(p) {
+  document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
+  const pg = document.getElementById(p + '-page');
+  if (pg) { pg.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  if (p === 'blog') renderBlog();
+  // Re-attach sounds for newly visible elements
+  setTimeout(attachSounds, 200);
+}
+function goHome() {
+  showPage('home');
+  return false;
+}
+
+// ===== TOAST =====
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ===== BLOG DATA =====
+let posts = [
+  {
+    id: 0, title: 'Building Scalable Systems: Lessons from 3 Years of Production Code',
+    cat: 'engineering', date: 'Mar 12, 2025',
+    excerpt: 'The hard-won lessons about system design, failure modes, and what "scalable" actually means.',
+    icon: '⚙️', readTime: '8 min read',
+    content: `## The Problem with Scalable
+
+Everyone wants to build scalable systems, but few stop to define what scalable means for their context.
+
+After 3 years shipping production code, I've learned that premature optimisation is the root of all evil — but the right abstractions pay dividends forever.
+
+## Lesson 1: Design for Failure First
+
+The most important lesson: design your system assuming every component will fail. Not if — when.
+
+\`\`\`javascript
+// Good: Planning for failure
+try {
+  const data = await fetchUserData(userId);
+  render(data);
+} catch (err) {
+  renderFallback(err);
+}
+\`\`\`
+
+## Lesson 2: Measure Before Optimising
+
+I've wasted weeks optimising the wrong bottleneck. Profile first, optimise second. The data always surprises you.
+
+## Final Thoughts
+
+Scalability is a property you earn through disciplined engineering, clear thinking, and ruthless simplification.`
+  },
+  {
+    id: 1, title: 'Why Every Developer Should Learn Design Fundamentals',
+    cat: 'design', date: 'Feb 28, 2025',
+    excerpt: 'The overlap between engineering and aesthetics is where the magic happens.',
+    icon: '🎨', readTime: '6 min read',
+    content: `## Code and Canvas
+
+I started as an artist before I became a developer. That turned out to be the best thing to happen to my engineering career.
+
+## Visual Hierarchy Is Logic
+
+Design teaches you to think about information hierarchy — what's most important, what supports it, what can be reduced. That's exactly what good code architecture looks like.
+
+## Start Small
+
+You don't need to become a designer. Read one book on typography. Study one design system. Notice the spacing in the apps you love.`
+  },
+  {
+    id: 2, title: 'Generative Art: Where Algorithms Meet Creativity',
+    cat: 'art', date: 'Feb 14, 2025',
+    excerpt: 'Exploring the beautiful chaos that emerges when code becomes the brush.',
+    icon: '🌌', readTime: '7 min read',
+    content: `## When Code Becomes a Paintbrush
+
+Generative art sits at the most exciting intersection I know: the deterministic world of algorithms and the infinite space of creativity.
+
+## Controlled Randomness
+
+\`\`\`javascript
+function drawCircle(x, y, r) {
+  const hue = Math.random() * 60 + 30;
+  ctx.fillStyle = \`hsl(\${hue}, 80%, 50%)\`;
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.fill();
+}
+\`\`\`
+
+## The Philosophy
+
+The artist's job in generative work shifts from making marks to designing systems. You're not painting — you're writing rules that paint.`
+  },
+  {
+    id: 3, title: 'From Gold Medal to GitHub: My Unconventional Path',
+    cat: 'career', date: 'Jan 30, 2025',
+    excerpt: 'How fine arts training made me a better engineer and why I wouldn\'t change a thing.',
+    icon: '🥇', readTime: '5 min read',
+    content: `## The Unlikely Journey
+
+I didn't start with bootcamps or CS degrees. I started with a sketchbook and a gold medal in fine arts.
+
+## What Art Taught Me About Engineering
+
+Art school teaches you to critique ruthlessly and iterate constantly. You pin your work on a wall and people tell you exactly what's wrong with it. That's code review culture — just with more paint.
+
+## The Synthesis
+
+Now I build products that look and work beautifully. I've stopped seeing code and art as separate disciplines. They're two dialects of the same language: making.`
+  }
+];
+let activeCat = 'all';
+
+// ===== BLOG RENDER =====
+function renderBlog() {
+  const grid = document.getElementById('posts-grid');
+  if (!grid) return;
+  const q = (document.getElementById('bsearch')?.value || '').toLowerCase();
+  const filtered = posts.filter(p => {
+    const mc = activeCat === 'all' || p.cat === activeCat;
+    const mq = p.title.toLowerCase().includes(q) || p.excerpt.toLowerCase().includes(q);
+    return mc && mq;
+  });
+  if (!filtered.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:5rem;font-family:\'Cormorant Garamond\',serif;font-size:1.1rem;font-style:italic;color:var(--muted);">No posts found in the archives.</div>';
+    return;
+  }
+  const gradMap = { art: '#180030', engineering: '#001530', design: '#180018', career: '#001a08' };
+  grid.innerHTML = filtered.map(p => `
+    <div class="post-card" onclick="viewPost(${p.id})">
+      <div class="post-card-img" style="background:linear-gradient(135deg,#080810,${gradMap[p.cat]||'#101030'})">
+        <span style="position:relative;z-index:1;">${p.icon||'📝'}</span>
+      </div>
+      <div class="post-card-body">
+        <div style="display:flex;align-items:center;gap:0.8rem;">
+          <span class="blog-cat">${p.cat}</span>
+          <span class="blog-date">${p.date}</span>
+        </div>
+        <h3>${p.title}</h3>
+        <p>${p.excerpt}</p>
+      </div>
+      <div class="post-card-foot">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--muted);">${p.readTime||'5 min read'}</span>
+        <a class="read-lnk" href="#">Read →</a>
+      </div>
+    </div>
+  `).join('');
+  setTimeout(attachSounds, 100);
+}
+
+function setCat(btn, cat) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  activeCat = cat;
+  renderBlog();
+}
+
+function viewPost(id) {
+  const p = posts.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('ph-title').textContent = p.title;
+  document.getElementById('ph-meta').innerHTML = `<span class="blog-cat">${p.cat}</span><span class="blog-date">${p.date}</span>`;
+  document.getElementById('ph-info').innerHTML = `<span>${p.readTime||'5 min read'}</span>`;
+  let html = p.content
+    .replace(/## (.+)/g, '<h2>$1</h2>')
+    .replace(/```[\w]*\n?([\s\S]*?)```/g, '<pre>$1</pre>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong style="color:var(--text);">$1</strong>');
+  document.getElementById('post-body-content').innerHTML = '<p>' + html + '</p>';
+  showPage('post');
+}
+
+// ===== ADMIN =====
+async function adminLogin() {
+  const pass = document.getElementById('admin-pass').value;
+  const hash = await hashStr(pass);
+  if (hash === ADMIN_HASH) {
+    document.getElementById('admin-login-screen').style.display = 'none';
+    document.getElementById('admin-panel-ui').style.display = 'block';
+    renderAdminPosts();
+    playSuccessSound();
+    toast('✦ Access granted');
+  } else {
+    const box = document.getElementById('login-box');
+    document.getElementById('admin-pass').style.borderColor = 'rgba(255,80,80,0.6)';
+    box.classList.add('shake');
+    playErrorSound();
+    setTimeout(() => { box.classList.remove('shake'); document.getElementById('admin-pass').style.borderColor = ''; }, 600);
+  }
+}
+function adminLogout() {
+  document.getElementById('admin-panel-ui').style.display = 'none';
+  document.getElementById('admin-login-screen').style.display = 'block';
+  document.getElementById('admin-pass').value = '';
+  playClickSound();
+}
+function renderAdminPosts() {
+  const c = document.getElementById('admin-posts-list');
+  if (!posts.length) {
+    c.innerHTML = '<p style="font-family:\'Cormorant Garamond\',serif;font-style:italic;color:var(--muted);text-align:center;padding:2rem;">No posts published yet.</p>';
+    return;
+  }
+  c.innerHTML = posts.map(p => `
+    <div class="admin-item">
+      <div class="admin-item-info">
+        <h4>${p.title}</h4>
+        <p>${p.cat} · ${p.date} · ${p.readTime||'5 min'}</p>
+      </div>
+      <div class="admin-actions">
+        <button class="btn-sm edit" onclick="editPost(${p.id})">Edit</button>
+        <button class="btn-sm del" onclick="delPost(${p.id})">Del</button>
+      </div>
+    </div>
+  `).join('');
+  setTimeout(attachSounds, 100);
+}
+function savePost() {
+  const title = document.getElementById('p-title').value.trim();
+  const content = document.getElementById('p-content').value.trim();
+  if (!title || !content) { toast('Please fill in title and content'); playErrorSound(); return; }
+  const cat = document.getElementById('p-cat').value;
+  const excerpt = document.getElementById('p-excerpt').value.trim();
+  const readTime = document.getElementById('p-time').value.trim() || '5 min read';
+  const icon = document.getElementById('p-icon').value.trim() || '📝';
+  const eid = document.getElementById('edit-id').value;
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+  if (eid) {
+    const idx = posts.findIndex(p => p.id === parseInt(eid));
+    if (idx > -1) posts[idx] = { ...posts[idx], title, cat, excerpt, content, readTime, icon };
+    cancelEdit();
+  } else {
+    const nid = posts.length ? Math.max(...posts.map(p => p.id)) + 1 : 0;
+    posts.unshift({ id: nid, title, cat, date: dateStr, excerpt, content, readTime, icon });
+  }
+  ['p-title','p-excerpt','p-content','p-time','p-icon'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('p-cat').value = 'engineering';
+  renderAdminPosts();
+  playSuccessSound();
+  toast('✦ Post published successfully');
+}
+function editPost(id) {
+  const p = posts.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('edit-id').value = id;
+  document.getElementById('p-title').value = p.title;
+  document.getElementById('p-cat').value = p.cat;
+  document.getElementById('p-excerpt').value = p.excerpt || '';
+  document.getElementById('p-content').value = p.content;
+  document.getElementById('p-time').value = p.readTime || '';
+  document.getElementById('p-icon').value = p.icon || '';
+  document.getElementById('admin-form-h').textContent = '✦ Edit Post';
+  document.getElementById('cancel-edit-btn').style.display = 'block';
+  document.querySelector('.admin-panel-body').scrollIntoView({ behavior: 'smooth' });
+}
+function cancelEdit() {
+  document.getElementById('edit-id').value = '';
+  ['p-title','p-excerpt','p-content','p-time','p-icon'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('admin-form-h').textContent = '✦ New Post';
+  document.getElementById('cancel-edit-btn').style.display = 'none';
+}
+function delPost(id) {
+  posts = posts.filter(p => p.id !== id);
+  renderAdminPosts();
+  toast('Post removed');
+  playClickSound();
+}
+
+// ===== CONTACT =====
+function handleContact(e) {
+  e.preventDefault();
+  playSuccessSound();
+  toast('✦ Message sent — I\'ll be in touch soon');
+}
+
+// ===== INIT =====
+window.addEventListener('DOMContentLoaded', () => {
+  attachSounds();
+});
+</script>
+</body>
+</html>

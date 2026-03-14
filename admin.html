@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin Panel — Abdul Rafay</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700&family=JetBrains+Mono:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --black:   #020204;
+  --dark:    #06060e;
+  --card:    #0a0a16;
+  --card2:   #0e0e1e;
+  --border:  #1a1a30;
+  --border2: #2a2a44;
+  --gold:    #d4a843;
+  --gold2:   #f0cd7a;
+  --gold3:   #fae8b0;
+  --gold-glow: rgba(212,168,67,0.15);
+  --gold-glow2: rgba(212,168,67,0.07);
+  --crimson: #c0392b;
+  --teal:    #00c9b1;
+  --text:    #ede9f8;
+  --text2:   #c8c4d8;
+  --muted:   #6e6c8a;
+  --muted2:  #4e4c6a;
+  --success: #1a7a4a;
+  --danger:  #8b1a1a;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--black);color:var(--text);
+  font-family:'JetBrains Mono',monospace;
+  min-height:100vh; overflow-x:hidden; cursor:default;
+}
+button, a, label, .sb-item, .gal-add, .gal-thumb, .panel-card[onclick] {
+  cursor:pointer !important;
+
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 70vw 50vh at 15% 5%, rgba(212,168,67,0.05) 0%,transparent 60%),
+    radial-gradient(ellipse 50vw 70vh at 85% 95%, rgba(108,52,131,0.06) 0%,transparent 60%);
+  pointer-events:none;z-index:0;
+}
+
+
+/* SIDEBAR */
+#sidebar{
+  position:fixed;top:0;left:0;bottom:0;width:260px;
+  background:var(--dark);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;z-index:100;
+  padding:2rem 0 1.5rem;
+}
+.sb-logo{padding:0 1.8rem 2rem;border-bottom:1px solid var(--border);}
+.sb-logo-text{font-family:'UnifrakturMaguntia',cursive;font-size:1.8rem;color:var(--gold);text-shadow:0 0 20px rgba(212,168,67,0.4);}
+.sb-logo-sub{font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;margin-top:.3rem;}
+
+.sb-nav{flex:1;padding:1.5rem 0;}
+.sb-item{
+  display:flex;align-items:center;gap:.9rem;
+  padding:.75rem 1.8rem;
+  font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);border-left:2px solid transparent;
+  transition:all .2s;position:relative;
+}
+.sb-item:hover{color:var(--text2);background:rgba(212,168,67,0.04);}
+.sb-item.active{color:var(--gold);border-left-color:var(--gold);background:var(--gold-glow2);}
+.sb-item .sb-icon{
+  width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--border2);font-size:.85rem;flex-shrink:0;
+}
+.sb-item.active .sb-icon{border-color:rgba(212,168,67,0.4);}
+.sb-badge{margin-left:auto;background:var(--gold-glow);border:1px solid rgba(212,168,67,0.3);color:var(--gold);font-size:.48rem;padding:.2rem .5rem;letter-spacing:.1em;}
+
+.sb-footer{padding:1.5rem 1.8rem 0;border-top:1px solid var(--border);}
+.sb-lock{font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;display:flex;align-items:center;gap:.6rem;transition:color .2s;}
+.sb-lock:hover{color:var(--gold);}
+
+/* MAIN */
+#main{margin-left:260px;padding:2.5rem;min-height:100vh;position:relative;z-index:1;}
+
+/* HEADER */
+.page-header{margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:flex-end;justify-content:space-between;}
+.page-header h1{font-family:'UnifrakturMaguntia',cursive;font-size:2.8rem;color:var(--gold);text-shadow:0 0 30px rgba(212,168,67,0.25);}
+.page-header p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--muted);}
+
+/* TABS */
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* CARDS */
+.panel-card{background:var(--card);border:1px solid var(--border);padding:2rem;position:relative;margin-bottom:1.5rem;}
+.panel-card::before{content:'';position:absolute;top:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.panel-card h2{font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem;}
+.panel-card h2 span{opacity:.4;}
+
+/* PHOTO UPLOAD */
+.photo-upload-zone{
+  border:1px dashed var(--border2);padding:3rem;text-align:center;
+  transition:all .3s;position:relative;overflow:hidden;
+}
+.photo-upload-zone:hover,.photo-upload-zone.drag{border-color:rgba(212,168,67,0.5);background:var(--gold-glow2);}
+.photo-preview-wrap{
+  display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;
+}
+.current-photo-box{text-align:center;}
+.photo-frame{
+  width:200px;height:250px;margin:0 auto 1rem;
+  position:relative;border:1px solid var(--border2);overflow:hidden;
+}
+.photo-frame img{width:100%;height:100%;object-fit:cover;object-position:top;}
+.photo-frame-empty{
+  width:100%;height:100%;background:linear-gradient(160deg,#0a0820,#14103a);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;
+}
+.photo-frame-empty span{font-family:'UnifrakturMaguntia',cursive;font-size:4rem;color:var(--gold);opacity:.25;}
+.photo-frame-empty p{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:.2em;color:var(--muted2);text-transform:uppercase;}
+.photo-frame::before{
+  content:'';position:absolute;inset:-2px;z-index:-1;
+  background:conic-gradient(from 0deg,var(--gold),transparent,var(--gold),transparent,var(--gold));
+  animation:spin 4s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.upload-controls{display:flex;flex-direction:column;gap:1rem;justify-content:center;}
+.upload-hint{font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;}
+.drop-area{
+  border:1px dashed var(--border2);padding:2rem 1.5rem;
+  text-align:center;transition:all .3s;
+}
+.drop-area:hover,.drop-area.drag{border-color:rgba(212,168,67,0.5);background:var(--gold-glow2);}
+.drop-area p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--muted);margin-bottom:.8rem;}
+.drop-area input[type=file]{display:none;}
+
+/* FORM ELEMENTS */
+.f-group{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.1rem;}
+.f-label{font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+.f-input,.f-select,.f-textarea{
+  background:var(--card2);border:1px solid var(--border);
+  color:var(--text);padding:.8rem .9rem;
+  font-family:'JetBrains Mono',monospace;font-size:.75rem;
+  outline:none;transition:border-color .3s;width:100%;
+}
+.f-input:focus,.f-textarea:focus,.f-select:focus{border-color:rgba(212,168,67,0.5);}
+.f-textarea{resize:vertical;min-height:90px;line-height:1.6;}
+.f-select option{background:var(--card);}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.f-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem;}
+
+/* BUTTONS */
+.btn{
+  font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  padding:.75rem 1.8rem;border:none;transition:all .25s;display:inline-flex;align-items:center;gap:.5rem;
+}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--black);position:relative;overflow:hidden;}
+.btn-gold::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(255,255,255,.2),transparent);transform:translateX(-100%);transition:transform .4s;}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(212,168,67,.3);}
+.btn-gold:hover::before{transform:translateX(100%);}
+.btn-ghost{background:transparent;border:1px solid rgba(212,168,67,.35);color:var(--gold);}
+.btn-ghost:hover{background:var(--gold-glow);border-color:var(--gold);}
+.btn-danger{background:transparent;border:1px solid rgba(192,57,43,.4);color:#e74c3c;}
+.btn-danger:hover{background:rgba(192,57,43,.1);}
+.btn-sm{padding:.4rem .9rem;font-size:.5rem;letter-spacing:.15em;}
+.btn-icon{padding:.5rem;width:32px;height:32px;display:flex;align-items:center;justify-content:center;}
+
+/* PROJECTS TABLE */
+.proj-table{width:100%;border-collapse:collapse;}
+.proj-table th{
+  font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);padding:.75rem 1rem;border-bottom:1px solid var(--border);text-align:left;
+}
+.proj-table td{
+  padding:.9rem 1rem;border-bottom:1px solid rgba(26,26,48,.8);
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;vertical-align:middle;
+}
+.proj-table tr:last-child td{border-bottom:none;}
+.proj-table tr:hover td{background:rgba(212,168,67,.02);}
+.proj-title-cell{font-family:'Cinzel',serif;font-size:.68rem;color:var(--text2);}
+.proj-desc-cell{color:var(--muted);font-size:.62rem;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tag-pill{
+  display:inline-block;padding:.15rem .55rem;
+  border:1px solid var(--border2);color:var(--muted);
+  font-size:.48rem;letter-spacing:.1em;text-transform:uppercase;margin:.1rem;
+}
+.proj-actions{display:flex;gap:.4rem;align-items:center;}
+.featured-badge{
+  background:var(--gold-glow);border:1px solid rgba(212,168,67,.3);
+  color:var(--gold);font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;
+  padding:.15rem .5rem;
+}
+.drag-handle{color:var(--muted2);cursor:grab;font-size:.8rem;margin-right:.4rem;}
+.drag-handle:active{cursor:grabbing;}
+
+/* GALLERY GRID */
+.gallery-mgr{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-bottom:1.5rem;}
+.gal-thumb{
+  position:relative;aspect-ratio:3/4;overflow:hidden;
+}
+.gal-thumb-bg{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:3rem;transition:transform .4s;
+}
+.gal-thumb:hover .gal-thumb-bg{transform:scale(1.05);}
+.gal-thumb-overlay{
+  position:absolute;inset:0;background:rgba(2,2,4,.8);
+  opacity:0;transition:opacity .3s;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;
+  padding:1rem;
+}
+.gal-thumb:hover .gal-thumb-overlay{opacity:1;}
+.gal-thumb-title{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.08em;text-align:center;line-height:1.4;}
+.gal-thumb-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.75rem;color:var(--muted);text-align:center;}
+.gal-add{
+  aspect-ratio:3/4;border:1px dashed var(--border2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;
+  transition:all .3s;
+}
+.gal-add:hover{border-color:rgba(212,168,67,.4);background:var(--gold-glow2);}
+.gal-add-icon{font-size:1.5rem;opacity:.4;color:var(--gold);}
+.gal-add-text{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);}
+
+/* MODAL */
+#modal-bg{
+  position:fixed;inset:0;background:rgba(2,2,4,.88);
+  z-index:500;display:none;align-items:center;justify-content:center;
+  padding:2rem;
+}
+#modal-bg.open{display:flex;}
+#modal{
+  background:var(--card);border:1px solid var(--border2);
+  width:100%;max-width:620px;max-height:90vh;overflow-y:auto;
+  position:relative;
+}
+#modal::before{content:'';position:absolute;top:0;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.modal-header{
+  padding:1.5rem 2rem;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.modal-header h3{font-family:'UnifrakturMaguntia',cursive;font-size:1.8rem;color:var(--gold);}
+.modal-close{
+  background:transparent;border:1px solid var(--border2);color:var(--muted);
+  width:32px;height:32px;transition:all .2s;
+  font-size:1rem;display:flex;align-items:center;justify-content:center;
+}
+.modal-close:hover{border-color:var(--gold);color:var(--gold);}
+.modal-body{padding:2rem;}
+.modal-footer{padding:1rem 2rem 1.5rem;display:flex;gap:.8rem;justify-content:flex-end;border-top:1px solid var(--border);}
+
+/* TOAST */
+#toast{
+  position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(120%);
+  background:var(--card2);border:1px solid rgba(212,168,67,.4);
+  color:var(--gold);padding:.85rem 2rem;
+  font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.15em;
+  z-index:9000;transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+  white-space:nowrap;
+}
+#toast.show{transform:translateX(-50%) translateY(0);}
+#toast.error{border-color:rgba(192,57,43,.5);color:#e74c3c;}
+
+/* LOGIN */
+#login-screen{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:var(--black);position:fixed;inset:0;z-index:9999;
+}
+.login-box{
+  background:var(--card);border:1px solid var(--border2);padding:3rem;
+  width:380px;position:relative;
+}
+.login-box::before{content:'';position:absolute;top:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.login-title{font-family:'UnifrakturMaguntia',cursive;font-size:2.2rem;color:var(--gold);text-shadow:0 0 25px rgba(212,168,67,.3);margin-bottom:.3rem;}
+.login-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.9rem;color:var(--muted);margin-bottom:2rem;}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
+.stat-mini{background:var(--card);border:1px solid var(--border);padding:1.2rem 1.4rem;position:relative;overflow:hidden;}
+.stat-mini::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.stat-mini-val{font-family:'Cinzel Decorative',serif;font-size:1.8rem;color:var(--gold);line-height:1;}
+.stat-mini-lbl{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:.4rem;}
+
+/* EMPTY STATE */
+.empty-state{padding:3rem;text-align:center;border:1px dashed var(--border2);}
+.empty-state p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--muted2);}
+
+/* SHAKE */
+.shake{animation:shk .4s ease;}
+@keyframes shk{10%,90%{transform:translateX(-1px);}20%,80%{transform:translateX(2px);}30%,50%,70%{transform:translateX(-3px);}40%,60%{transform:translateX(3px);}}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:var(--border2);}
+::-webkit-scrollbar-thumb:hover{background:rgba(212,168,67,.3);}
+
+/* DIVIDER */
+.rune-div{text-align:center;color:rgba(212,168,67,.15);font-family:'UnifrakturMaguntia',cursive;font-size:1.2rem;letter-spacing:.4em;padding:.5rem 0;margin-bottom:1.5rem;}
+
+/* NOTICE */
+.notice{background:var(--gold-glow2);border:1px solid rgba(212,168,67,.25);padding:1rem 1.2rem;margin-bottom:1.5rem;display:flex;align-items:flex-start;gap:.8rem;}
+.notice-icon{color:var(--gold);font-size:.9rem;flex-shrink:0;margin-top:.1rem;}
+.notice p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.88rem;color:var(--text2);line-height:1.6;}
+.notice strong{color:var(--gold);font-style:normal;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  #sidebar{width:220px;}
+  #main{margin-left:220px;padding:1.5rem;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .gallery-mgr{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:680px){
+  #sidebar{display:none;}
+  #main{margin-left:0;}
+}
+</style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-box" id="login-box">
+    <div style="font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;">⚙ Restricted Access</div>
+    <div class="login-title">Abdul Rafay</div>
+    <div class="login-sub">Portfolio Admin Panel</div>
+    <div class="f-group">
+      <label class="f-label">Password</label>
+      <input class="f-input" type="password" id="lpass" placeholder="Enter admin password..." onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <button class="btn btn-gold" style="width:100%;margin-top:.5rem;justify-content:center;" onclick="doLogin()">✦ Access Panel</button>
+    <div id="login-err" style="height:1.5rem;margin-top:.8rem;font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.15em;color:#e74c3c;text-align:center;opacity:0;transition:opacity .3s;"></div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-text">Abdul Rafay</div>
+    <div class="sb-logo-sub">Admin Panel</div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-item active" onclick="switchTab('dashboard',this)">
+      <div class="sb-icon">◈</div> Dashboard
+    </div>
+    <div class="sb-item" onclick="switchTab('photo',this)">
+      <div class="sb-icon">◉</div> Profile Photo
+    </div>
+    <div class="sb-item" onclick="switchTab('projects',this)">
+      <div class="sb-icon">⬡</div> Projects
+      <span class="sb-badge" id="proj-count">0</span>
+    </div>
+    <div class="sb-item" onclick="switchTab('gallery',this)">
+      <div class="sb-icon">◫</div> Gallery
+      <span class="sb-badge" id="gal-count">0</span>
+    </div>
+  </nav>
+  <div class="sb-footer">
+    <div class="sb-lock" onclick="doLogout()">⊠ Lock Panel</div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main">
+
+  <!-- DASHBOARD TAB -->
+  <div id="tab-dashboard" class="tab-content active">
+    <div class="page-header">
+      <div>
+        <h1>Dashboard</h1>
+        <p>Manage your portfolio content</p>
+      </div>
+      <div style="font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;" id="dash-time"></div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-mini">
+        <div class="stat-mini-val" id="ds-photo">—</div>
+        <div class="stat-mini-lbl">Profile Photo</div>
+      </div>
+      <div class="stat-mini">
+        <div class="stat-mini-val" id="ds-proj">0</div>
+        <div class="stat-mini-lbl">Projects</div>
+      </div>
+      <div class="stat-mini">
+        <div class="stat-mini-val" id="ds-gal">0</div>
+        <div class="stat-mini-lbl">Gallery Items</div>
+      </div>
+      <div class="stat-mini">
+        <div class="stat-mini-val" id="ds-feat">0</div>
+        <div class="stat-mini-lbl">Featured</div>
+      </div>
+    </div>
+    <div class="notice">
+      <span class="notice-icon">✦</span>
+      <p>Changes made here are <strong>saved to localStorage</strong> in your browser. To apply them to your live portfolio, use the <strong>Export Data</strong> button — it downloads a JSON file you can paste into your <code>index.html</code>.</p>
+    </div>
+    <div class="rune-div">✦ ✦ ✦ ✦ ✦</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+      <div class="panel-card" style="" onclick="switchTabName('photo')">
+        <h2>◉ <span>01 /</span> Profile Photo</h2>
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--muted);line-height:1.7;">Upload or replace your hero portrait. Supports JPG, PNG, WebP. Displayed in the hero section with the animated gold border frame.</p>
+        <div style="margin-top:1.2rem;">
+          <button class="btn btn-ghost btn-sm" onclick="switchTabName('photo')">Manage Photo →</button>
+        </div>
+      </div>
+      <div class="panel-card" style="" onclick="switchTabName('projects')">
+        <h2>⬡ <span>02 /</span> Projects</h2>
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--muted);line-height:1.7;">Add, edit, remove, and reorder your portfolio projects. Set one as featured to display it prominently with a code preview.</p>
+        <div style="margin-top:1.2rem;">
+          <button class="btn btn-ghost btn-sm" onclick="switchTabName('projects')">Manage Projects →</button>
+        </div>
+      </div>
+      <div class="panel-card" style="" onclick="switchTabName('gallery')">
+        <h2>◫ <span>03 /</span> Gallery</h2>
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--muted);line-height:1.7;">Curate your art gallery. Upload images or add gradient placeholders with titles and descriptions for your creative works.</p>
+        <div style="margin-top:1.2rem;">
+          <button class="btn btn-ghost btn-sm" onclick="switchTabName('gallery')">Manage Gallery →</button>
+        </div>
+      </div>
+      <div class="panel-card">
+        <h2>⬇ <span>04 /</span> Export Data</h2>
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--muted);line-height:1.7;">Download all your portfolio data as a JSON file. Copy the relevant sections into your <code style="font-size:.7rem;color:var(--gold);">index.html</code> to publish changes.</p>
+        <div style="margin-top:1.2rem;">
+          <button class="btn btn-gold btn-sm" onclick="exportData()">Export JSON →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHOTO TAB -->
+  <div id="tab-photo" class="tab-content">
+    <div class="page-header">
+      <div><h1>Profile Photo</h1><p>Hero section portrait</p></div>
+    </div>
+    <div class="panel-card">
+      <h2>◉ <span>/</span> Current Photo</h2>
+      <div class="photo-preview-wrap">
+        <div class="current-photo-box">
+          <div class="photo-frame" id="photo-frame">
+            <div class="photo-frame-empty" id="photo-empty">
+              <span>ℜ</span>
+              <p>No Photo</p>
+            </div>
+            <img id="photo-preview" style="display:none;width:100%;height:100%;object-fit:cover;object-position:top;" alt="Profile photo"/>
+          </div>
+          <div style="font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;">Current Photo</div>
+          <button class="btn btn-danger btn-sm" id="remove-photo-btn" onclick="removePhoto()" style="display:none;">Remove Photo</button>
+        </div>
+        <div class="upload-controls">
+          <div class="upload-hint">✦ Upload New Photo</div>
+          <div class="drop-area" id="drop-area"
+               ondragover="ev.preventDefault();this.classList.add('drag')"
+               ondragleave="this.classList.remove('drag')"
+               ondrop="handleDrop(event,'photo')">
+            <p>Drag &amp; drop your photo here, or click to browse</p>
+            <p style="font-size:.65rem;color:var(--muted2);font-style:normal;margin-bottom:.8rem;">JPG · PNG · WebP · Max 5MB</p>
+            <label class="btn btn-ghost btn-sm" style="display:inline-flex;">
+              Browse Files
+              <input type="file" accept="image/*" id="photo-file-input" onchange="handleFileSelect(event,'photo')"/>
+            </label>
+          </div>
+          <div id="photo-meta" style="display:none;font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.12em;color:var(--muted);padding:.6rem .8rem;border:1px solid var(--border2);"></div>
+          <div style="display:flex;gap:.8rem;margin-top:.5rem;">
+            <button class="btn btn-gold" id="save-photo-btn" style="display:none;flex:1;justify-content:center;" onclick="savePhoto()">✦ Save Photo</button>
+          </div>
+          <div class="notice" style="margin-top:1rem;margin-bottom:0;">
+            <span class="notice-icon" style="font-size:.8rem;">ℹ</span>
+            <p>After saving, use <strong>Export Data</strong> to download your portfolio data and update your <strong>index.html</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECTS TAB -->
+  <div id="tab-projects" class="tab-content">
+    <div class="page-header">
+      <div><h1>Projects</h1><p>Add, edit &amp; reorder your work</p></div>
+      <button class="btn btn-gold" onclick="openModal('project',null)">+ Add Project</button>
+    </div>
+    <div class="panel-card" id="proj-panel">
+      <h2>⬡ <span>/</span> All Projects</h2>
+      <div id="proj-list-wrap">
+        <div class="empty-state"><p>No projects yet. Add your first project above.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GALLERY TAB -->
+  <div id="tab-gallery" class="tab-content">
+    <div class="page-header">
+      <div><h1>Art Gallery</h1><p>Curate your creative works</p></div>
+      <button class="btn btn-gold" onclick="openModal('gallery',null)">+ Add Artwork</button>
+    </div>
+    <div class="panel-card">
+      <h2>◫ <span>/</span> Gallery Items</h2>
+      <div class="gallery-mgr" id="gal-grid"></div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- MODAL -->
+<div id="modal-bg" onclick="if(event.target===this)closeModal()">
+  <div id="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Add Project</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer" id="modal-footer"></div>
+  </div>
+</div>
+
+<script>
+// ===== HASH =====
+const ADMIN_HASH = 'b8273740c1d333a4c2b742380d87aa6e31416899da58ce641fe4d35eb56d9618';
+async function hashStr(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
+
+// ===== CURSOR =====
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function tick(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
+function hov(el){el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));}
+document.querySelectorAll('button,a,.sb-item,.gal-thumb,.gal-add,.panel-card').forEach(hov);
+
+// ===== AUDIO =====
+let aCtx=null;
+function getACtx(){if(!aCtx)aCtx=new(window.AudioContext||window.webkitAudioContext)();return aCtx;}
+function tone(f,t='sine',d=.08,g=.05){try{const c=getACtx(),o=c.createOscillator(),gn=c.createGain();o.connect(gn);gn.connect(c.destination);o.type=t;o.frequency.value=f;gn.gain.setValueAtTime(g,c.currentTime);gn.gain.exponentialRampToValueAtTime(.0001,c.currentTime+d);o.start();o.stop(c.currentTime+d);}catch(e){}}
+function sfxHover(){tone(880,'sine',.05,.03);}
+function sfxClick(){tone(660,'triangle',.1,.06);setTimeout(()=>tone(990,'sine',.07,.03),30);}
+function sfxOk(){tone(523,'sine',.14,.05);setTimeout(()=>tone(659,'sine',.14,.05),110);setTimeout(()=>tone(784,'sine',.18,.05),220);}
+function sfxErr(){tone(200,'sawtooth',.14,.05);setTimeout(()=>tone(160,'sawtooth',.12,.05),90);}
+document.addEventListener('mouseover',e=>{if(e.target.closest('button,.sb-item,.gal-thumb,.gal-add'))sfxHover();});
+document.addEventListener('click',e=>{if(e.target.closest('button,.sb-item'))sfxClick();});
+
+// ===== TOAST =====
+function toast(msg,err=false){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className=err?'error show':'show';
+  clearTimeout(t._t);
+  t._t=setTimeout(()=>t.classList.remove('show'),3200);
+}
+
+// ===== STATE =====
+let state={photo:null,photoName:null,projects:[],gallery:[]};
+let pendingPhoto=null,pendingPhotoName=null;
+let editingId=null,modalMode=null;
+
+function save(){localStorage.setItem('ar-admin',JSON.stringify(state));}
+function load(){
+  const d=localStorage.getItem('ar-admin');
+  if(d)state=JSON.parse(d);
+  // seed default projects if empty
+  if(!state.projects.length){
+    state.projects=[
+      {id:1,num:'001',icon:'🛒',title:'E-Commerce Platform with AI Recommendations',desc:'Full-stack platform built with Next.js, Node.js and PostgreSQL. Features real-time inventory, AI product recommendations, and a custom admin panel.',tags:['Next.js','Node.js','PostgreSQL','AI/ML'],github:'https://github.com/abdulrafayau',demo:'',featured:true},
+      {id:2,num:'002',icon:'💬',title:'Real-Time Chat Application',desc:'WebSocket-powered chat with end-to-end encryption, file sharing, and voice notes. Handles 10k+ concurrent users.',tags:['React','Socket.io','Redis'],github:'https://github.com/abdulrafayau',demo:'',featured:false},
+      {id:3,num:'003',icon:'🎨',title:'AI Art Generator Tool',desc:'Browser-based generative art tool using ML models to create artwork from text prompts.',tags:['Python','FastAPI','React'],github:'https://github.com/abdulrafayau',demo:'',featured:false},
+      {id:4,num:'004',icon:'📊',title:'Portfolio CMS Dashboard',desc:'Headless CMS for creatives with drag-and-drop layout builder, media management, and built-in analytics.',tags:['Vue.js','Strapi','MongoDB'],github:'https://github.com/abdulrafayau',demo:'',featured:false},
+      {id:5,num:'005',icon:'✅',title:'Task Management SaaS',desc:'Kanban-style project management with team collaboration, time tracking, and Slack integration.',tags:['TypeScript','Next.js','Prisma'],github:'https://github.com/abdulrafayau',demo:'',featured:false},
+      {id:6,num:'006',icon:'🤖',title:'Intelligent Study Assistant',desc:'AI-powered study companion that generates quizzes, summarises PDFs, and creates personalised learning paths.',tags:['Python','LangChain','React'],github:'https://github.com/abdulrafayau',demo:'',featured:false},
+    ];
+  }
+  if(!state.gallery.length){
+    state.gallery=[
+      {id:1,title:'Cosmos Series I',sub:'Digital Illustration · 2024',icon:'🌌',bg:'linear-gradient(160deg,#06001a,#180030,#0a0020)',image:null},
+      {id:2,title:'Organic Forms',sub:'Mixed Media · 2024',icon:'🌿',bg:'linear-gradient(160deg,#001508,#002a14)',image:null},
+      {id:3,title:'Geometric Dreams',sub:'Digital Art · 2023',icon:'🔮',bg:'linear-gradient(160deg,#1a0800,#2a1200)',image:null},
+      {id:4,title:'Light Fractals',sub:'Generative Art · 2024',icon:'✨',bg:'linear-gradient(160deg,#100020,#200030)',image:null},
+      {id:5,title:'Fluid Dynamics',sub:'Digital Painting · 2023',icon:'🌊',bg:'linear-gradient(160deg,#00101a,#001a2a)',image:null},
+      {id:6,title:'Ember Studies',sub:'Illustration · 2024',icon:'🔥',bg:'linear-gradient(160deg,#1a0000,#2a0008)',image:null},
+    ];
+  }
+}
+
+// ===== LOGIN =====
+async function doLogin(){
+  const v=document.getElementById('lpass').value;
+  const h=await hashStr(v);
+  const err=document.getElementById('login-err');
+  if(h===ADMIN_HASH){
+    document.getElementById('login-screen').style.display='none';
+    load();init();
+    sfxOk();
+  } else {
+    err.textContent='✕ Incorrect password';err.style.opacity='1';
+    document.getElementById('login-box').classList.add('shake');
+    setTimeout(()=>{document.getElementById('login-box').classList.remove('shake');err.style.opacity='0';},1200);
+    sfxErr();
+  }
+}
+function doLogout(){
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('lpass').value='';
+  sfxClick();
+}
+
+// ===== INIT =====
+function init(){
+  updateDashboard();renderProjects();renderGallery();updateCounts();
+  // live clock
+  setInterval(()=>{
+    const d=new Date();
+    const el=document.getElementById('dash-time');
+    if(el)el.textContent=d.toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+  },1000);
+  // restore photo
+  if(state.photo){
+    document.getElementById('photo-preview').src=state.photo;
+    document.getElementById('photo-preview').style.display='block';
+    document.getElementById('photo-empty').style.display='none';
+    document.getElementById('remove-photo-btn').style.display='inline-flex';
+    document.getElementById('ds-photo').textContent='✓';
+  }
+}
+
+// ===== TABS =====
+function switchTab(name,el){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if(el)el.classList.add('active');
+}
+function switchTabName(name){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  document.querySelectorAll('.sb-item').forEach(i=>{
+    if(i.textContent.toLowerCase().trim().startsWith(name.substring(0,4).toLowerCase()))
+      i.classList.add('active');
+  });
+}
+
+// ===== DASHBOARD =====
+function updateDashboard(){
+  document.getElementById('ds-proj').textContent=state.projects.length;
+  document.getElementById('ds-gal').textContent=state.gallery.length;
+  document.getElementById('ds-feat').textContent=state.projects.filter(p=>p.featured).length;
+  document.getElementById('ds-photo').textContent=state.photo?'✓':'—';
+}
+function updateCounts(){
+  document.getElementById('proj-count').textContent=state.projects.length;
+  document.getElementById('gal-count').textContent=state.gallery.length;
+  updateDashboard();
+}
+
+// ===== PHOTO =====
+let _tmpPhoto=null,_tmpPhotoName=null;
+function handleFileSelect(ev,ctx){
+  const f=ev.target.files[0];if(!f)return;
+  processImageFile(f,ctx);
+}
+function handleDrop(ev,ctx){
+  ev.preventDefault();
+  document.getElementById('drop-area')?.classList.remove('drag');
+  const f=ev.dataTransfer.files[0];if(!f||!f.type.startsWith('image/'))return;
+  processImageFile(f,ctx);
+}
+function processImageFile(f,ctx){
+  if(f.size>5*1024*1024){toast('File too large (max 5MB)',true);sfxErr();return;}
+  const r=new FileReader();
+  r.onload=e=>{
+    _tmpPhoto=e.target.result;
+    _tmpPhotoName=f.name;
+    document.getElementById('photo-preview').src=_tmpPhoto;
+    document.getElementById('photo-preview').style.display='block';
+    document.getElementById('photo-empty').style.display='none';
+    document.getElementById('save-photo-btn').style.display='flex';
+    const meta=document.getElementById('photo-meta');
+    meta.style.display='block';
+    meta.textContent=`${f.name} · ${(f.size/1024).toFixed(0)} KB · ${f.type.split('/')[1].toUpperCase()}`;
+    toast('✦ Photo ready — press Save to apply');sfxOk();
+  };
+  r.readAsDataURL(f);
+}
+function savePhoto(){
+  if(!_tmpPhoto){toast('No photo selected',true);return;}
+  state.photo=_tmpPhoto;state.photoName=_tmpPhotoName;
+  save();updateDashboard();
+  document.getElementById('save-photo-btn').style.display='none';
+  document.getElementById('remove-photo-btn').style.display='inline-flex';
+  toast('✦ Photo saved');sfxOk();
+}
+function removePhoto(){
+  state.photo=null;state.photoName=null;_tmpPhoto=null;
+  document.getElementById('photo-preview').style.display='none';
+  document.getElementById('photo-empty').style.display='flex';
+  document.getElementById('remove-photo-btn').style.display='none';
+  document.getElementById('save-photo-btn').style.display='none';
+  document.getElementById('photo-meta').style.display='none';
+  save();updateDashboard();
+  toast('Photo removed');sfxClick();
+}
+
+// ===== PROJECTS =====
+function renderProjects(){
+  const c=document.getElementById('proj-list-wrap');
+  if(!state.projects.length){c.innerHTML='<div class="empty-state"><p>No projects yet. Add your first project above.</p></div>';return;}
+  c.innerHTML=`
+    <table class="proj-table">
+      <thead>
+        <tr>
+          <th style="width:28px;"></th>
+          <th>Project</th>
+          <th>Description</th>
+          <th>Tags</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="proj-tbody">
+        ${state.projects.map((p,i)=>`
+          <tr data-id="${p.id}" class="${p.featured?'proj-row-feat':''}">
+            <td><span class="drag-handle" title="Drag to reorder">⠿</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:.6rem;">
+                <span style="font-size:1.2rem;">${p.icon||'📝'}</span>
+                <div>
+                  <div class="proj-title-cell">${p.title}</div>
+                  <div style="font-family:'Cinzel',serif;font-size:.48rem;letter-spacing:.15em;color:var(--muted2);text-transform:uppercase;">${p.num||'00'+(i+1)}</div>
+                </div>
+              </div>
+            </td>
+            <td class="proj-desc-cell">${p.desc}</td>
+            <td>${(p.tags||[]).map(t=>`<span class="tag-pill">${t}</span>`).join('')}</td>
+            <td>${p.featured?'<span class="featured-badge">Featured</span>':'<span style="color:var(--muted2);font-size:.58rem;font-family:\'Cinzel\',serif;letter-spacing:.1em;">Standard</span>'}</td>
+            <td>
+              <div class="proj-actions">
+                <button class="btn btn-ghost btn-sm" onclick="openModal('project',${p.id})">Edit</button>
+                ${p.featured?'':'<button class="btn btn-ghost btn-sm" onclick="setFeatured('+p.id+')">★</button>'}
+                <button class="btn btn-danger btn-sm" onclick="deleteProject(${p.id})">Del</button>
+              </div>
+            </td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+  enableDragSort();
+}
+
+function enableDragSort(){
+  const tbody=document.getElementById('proj-tbody');if(!tbody)return;
+  let dragging=null;
+  tbody.querySelectorAll('tr').forEach(row=>{
+    row.setAttribute('draggable','true');
+    row.addEventListener('dragstart',e=>{dragging=row;row.style.opacity='.4';});
+    row.addEventListener('dragend',()=>{dragging.style.opacity='';dragging=null;});
+    row.addEventListener('dragover',e=>{e.preventDefault();if(dragging&&dragging!==row){tbody.insertBefore(dragging,row);}});
+    row.addEventListener('drop',()=>{
+      const order=Array.from(tbody.querySelectorAll('tr')).map(r=>parseInt(r.dataset.id));
+      state.projects.sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id));
+      save();renderProjects();toast('Order saved');
+    });
+  });
+}
+
+function setFeatured(id){
+  state.projects.forEach(p=>p.featured=p.id===id);
+  save();renderProjects();updateCounts();
+  toast('✦ Featured project updated');sfxOk();
+}
+function deleteProject(id){
+  if(!confirm('Remove this project?'))return;
+  state.projects=state.projects.filter(p=>p.id!==id);
+  save();renderProjects();updateCounts();
+  toast('Project removed');sfxClick();
+}
+
+// ===== GALLERY =====
+function renderGallery(){
+  const g=document.getElementById('gal-grid');
+  g.innerHTML=state.gallery.map(item=>`
+    <div class="gal-thumb">
+      <div class="gal-thumb-bg" style="background:${item.image?'none':item.bg};">
+        ${item.image
+          ?`<img src="${item.image}" style="width:100%;height:100%;object-fit:cover;" alt="${item.title}"/>`
+          :`<span style="font-size:3rem;">${item.icon}</span>`}
+      </div>
+      <div class="gal-thumb-overlay">
+        <div class="gal-thumb-title">${item.title}</div>
+        <div class="gal-thumb-sub">${item.sub}</div>
+        <div style="display:flex;gap:.5rem;margin-top:.5rem;">
+          <button class="btn btn-ghost btn-sm" onclick="openModal('gallery',${item.id})">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteGallery(${item.id})">Del</button>
+        </div>
+      </div>
+    </div>
+  `).join('')+`
+    <div class="gal-add" onclick="openModal('gallery',null)">
+      <div class="gal-add-icon">+</div>
+      <div class="gal-add-text">Add Artwork</div>
+    </div>
+  `;
+  document.querySelectorAll('.gal-thumb,#gal-grid .gal-add').forEach(hov);
+}
+function deleteGallery(id){
+  if(!confirm('Remove this artwork?'))return;
+  state.gallery=state.gallery.filter(g=>g.id!==id);
+  save();renderGallery();updateCounts();
+  toast('Artwork removed');sfxClick();
+}
+
+// ===== MODAL =====
+function openModal(mode,id){
+  modalMode=mode;editingId=id;
+  const mb=document.getElementById('modal-body');
+  const mf=document.getElementById('modal-footer');
+  const mt=document.getElementById('modal-title');
+  if(mode==='project'){
+    const p=id?state.projects.find(x=>x.id===id):null;
+    mt.textContent=p?'Edit Project':'Add Project';
+    mb.innerHTML=`
+      <div class="f-row">
+        <div class="f-group"><label class="f-label">Project Number</label><input class="f-input" id="m-num" value="${p?p.num:'00'+(state.projects.length+1)}" placeholder="001"/></div>
+        <div class="f-group"><label class="f-label">Icon (emoji)</label><input class="f-input" id="m-icon" value="${p?p.icon:'📝'}" style="font-size:1.2rem;"/></div>
+      </div>
+      <div class="f-group"><label class="f-label">Title</label><input class="f-input" id="m-title" value="${p?esc(p.title):''}" placeholder="Project title..."/></div>
+      <div class="f-group"><label class="f-label">Description</label><textarea class="f-textarea" id="m-desc" placeholder="Brief project description...">${p?esc(p.desc):''}</textarea></div>
+      <div class="f-group"><label class="f-label">Tags (comma separated)</label><input class="f-input" id="m-tags" value="${p?(p.tags||[]).join(', '):''}" placeholder="React, Node.js, PostgreSQL"/></div>
+      <div class="f-row">
+        <div class="f-group"><label class="f-label">GitHub URL</label><input class="f-input" id="m-github" value="${p?p.github:''}" placeholder="https://github.com/..."/></div>
+        <div class="f-group"><label class="f-label">Live Demo URL</label><input class="f-input" id="m-demo" value="${p?p.demo:''}" placeholder="https://..."/></div>
+      </div>
+      <div class="f-group" style="flex-direction:row;align-items:center;gap:.8rem;margin-bottom:.5rem;">
+        <input type="checkbox" id="m-feat" ${p&&p.featured?'checked':''} style="accent-color:var(--gold);width:16px;height:16px;"/>
+        <label class="f-label" for="m-feat" style="">Set as Featured Project</label>
+      </div>
+    `;
+    mf.innerHTML=`
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold btn-sm" onclick="saveProject()">✦ Save Project</button>
+    `;
+  } else {
+    const g=id?state.gallery.find(x=>x.id===id):null;
+    mt.textContent=g?'Edit Artwork':'Add Artwork';
+    mb.innerHTML=`
+      <div class="f-row">
+        <div class="f-group"><label class="f-label">Title</label><input class="f-input" id="g-title" value="${g?esc(g.title):''}" placeholder="Artwork title..."/></div>
+        <div class="f-group"><label class="f-label">Subtitle</label><input class="f-input" id="g-sub" value="${g?esc(g.sub):''}" placeholder="Medium · Year"/></div>
+      </div>
+      <div class="f-row">
+        <div class="f-group"><label class="f-label">Placeholder Icon</label><input class="f-input" id="g-icon" value="${g?g.icon:'🎨'}" style="font-size:1.4rem;"/></div>
+        <div class="f-group"><label class="f-label">Background Gradient</label>
+          <select class="f-select" id="g-bg">
+            <option value="linear-gradient(160deg,#06001a,#180030,#0a0020)" ${g&&g.bg.includes('#180030')?'selected':''}>Deep Violet</option>
+            <option value="linear-gradient(160deg,#001508,#002a14)" ${g&&g.bg.includes('#002a14')?'selected':''}>Forest</option>
+            <option value="linear-gradient(160deg,#1a0800,#2a1200)" ${g&&g.bg.includes('#2a1200')?'selected':''}>Ember</option>
+            <option value="linear-gradient(160deg,#100020,#200030)" ${g&&g.bg.includes('#200030')?'selected':''}>Twilight</option>
+            <option value="linear-gradient(160deg,#00101a,#001a2a)" ${g&&g.bg.includes('#001a2a')?'selected':''}>Ocean</option>
+            <option value="linear-gradient(160deg,#1a0000,#2a0008)" ${g&&g.bg.includes('#2a0008')?'selected':''}>Crimson</option>
+            <option value="linear-gradient(160deg,#0a0808,#2a2000)" ${g&&g.bg.includes('#2a2000')?'selected':''}>Gold Dust</option>
+          </select>
+        </div>
+      </div>
+      <div class="f-group">
+        <label class="f-label">Upload Image (optional)</label>
+        <div class="drop-area" id="gal-drop"
+             ondragover="event.preventDefault();this.classList.add('drag')"
+             ondragleave="this.classList.remove('drag')"
+             ondrop="handleGalDrop(event)">
+          <p style="margin-bottom:.5rem;">${g&&g.image?'Image uploaded ✓':'Drag image here or click to browse'}</p>
+          <label class="btn btn-ghost btn-sm" style="display:inline-flex;">
+            Browse
+            <input type="file" accept="image/*" id="g-img-input" onchange="handleGalImgSelect(event)" style="display:none;"/>
+          </label>
+        </div>
+        <div id="g-img-preview" style="margin-top:.8rem;display:${g&&g.image?'block':'none'};">
+          <img id="g-img-thumb" src="${g&&g.image?g.image:''}" style="width:100px;height:120px;object-fit:cover;border:1px solid var(--border2);" alt=""/>
+          <button class="btn btn-danger btn-sm" style="margin-top:.4rem;display:block;" onclick="clearGalImg()">Remove Image</button>
+        </div>
+      </div>
+    `;
+    mf.innerHTML=`
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold btn-sm" onclick="saveGallery()">✦ Save Artwork</button>
+    `;
+  }
+  document.getElementById('modal-bg').classList.add('open');
+  // re-attach hover sounds to modal buttons
+  document.querySelectorAll('#modal button').forEach(hov);
+}
+
+let _tmpGalImg=null;
+function handleGalImgSelect(ev){
+  const f=ev.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    _tmpGalImg=e.target.result;
+    document.getElementById('g-img-thumb').src=_tmpGalImg;
+    document.getElementById('g-img-preview').style.display='block';
+    document.getElementById('gal-drop').querySelector('p').textContent='Image ready ✓';
+    sfxOk();
+  };
+  r.readAsDataURL(f);
+}
+function handleGalDrop(ev){
+  ev.preventDefault();
+  document.getElementById('gal-drop')?.classList.remove('drag');
+  const f=ev.dataTransfer.files[0];
+  if(!f||!f.type.startsWith('image/'))return;
+  const r=new FileReader();
+  r.onload=e=>{
+    _tmpGalImg=e.target.result;
+    document.getElementById('g-img-thumb').src=_tmpGalImg;
+    document.getElementById('g-img-preview').style.display='block';
+    sfxOk();
+  };
+  r.readAsDataURL(f);
+}
+function clearGalImg(){_tmpGalImg=null;document.getElementById('g-img-preview').style.display='none';}
+
+function closeModal(){
+  document.getElementById('modal-bg').classList.remove('open');
+  _tmpGalImg=null;editingId=null;
+}
+
+function saveProject(){
+  const title=document.getElementById('m-title').value.trim();
+  const desc=document.getElementById('m-desc').value.trim();
+  if(!title){toast('Title is required',true);sfxErr();return;}
+  const num=document.getElementById('m-num').value.trim();
+  const icon=document.getElementById('m-icon').value.trim()||'📝';
+  const tags=document.getElementById('m-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  const github=document.getElementById('m-github').value.trim();
+  const demo=document.getElementById('m-demo').value.trim();
+  const feat=document.getElementById('m-feat').checked;
+  if(feat)state.projects.forEach(p=>p.featured=false);
+  if(editingId){
+    const i=state.projects.findIndex(p=>p.id===editingId);
+    if(i>-1)state.projects[i]={...state.projects[i],num,icon,title,desc,tags,github,demo,featured:feat};
+  } else {
+    const nid=state.projects.length?Math.max(...state.projects.map(p=>p.id))+1:1;
+    state.projects.push({id:nid,num,icon,title,desc,tags,github,demo,featured:feat});
+  }
+  save();renderProjects();updateCounts();closeModal();
+  toast(editingId?'✦ Project updated':'✦ Project added');sfxOk();
+}
+
+function saveGallery(){
+  const title=document.getElementById('g-title').value.trim();
+  if(!title){toast('Title is required',true);sfxErr();return;}
+  const sub=document.getElementById('g-sub').value.trim();
+  const icon=document.getElementById('g-icon').value.trim()||'🎨';
+  const bg=document.getElementById('g-bg').value;
+  const image=_tmpGalImg||(editingId?state.gallery.find(g=>g.id===editingId)?.image:null)||null;
+  if(editingId){
+    const i=state.gallery.findIndex(g=>g.id===editingId);
+    if(i>-1)state.gallery[i]={...state.gallery[i],title,sub,icon,bg,image};
+  } else {
+    const nid=state.gallery.length?Math.max(...state.gallery.map(g=>g.id))+1:1;
+    state.gallery.push({id:nid,title,sub,icon,bg,image});
+  }
+  save();renderGallery();updateCounts();closeModal();
+  toast(editingId?'✦ Artwork updated':'✦ Artwork added');sfxOk();
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// ===== EXPORT =====
+function exportData(){
+  const out={
+    photo:state.photo,
+    photoName:state.photoName,
+    projects:state.projects.map(p=>({...p,image:undefined})),
+    gallery:state.gallery.map(g=>({...g,image:g.image?'[base64-image-data]':null})),
+    exportedAt:new Date().toISOString()
+  };
+  const blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='portfolio-data.json';a.click();
+  URL.revokeObjectURL(url);
+  toast('✦ Data exported');sfxOk();
+}
+
+// ===== ENTER KEY LOGIN =====
+document.getElementById('lpass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+</script>
+</body>
+</html>
