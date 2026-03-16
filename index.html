@@ -15,7 +15,6 @@
 <div id="cursor-ring"></div>
 <div id="toast"></div>
 
-<!-- NAV -->
 <nav>
   <a class="nav-logo" href="#" onclick="return goHome()">Abdul Rafay</a>
   <ul class="nav-links">
@@ -26,25 +25,27 @@
     <li><a href="#contact" onclick="goHome()">Contact</a></li>
   </ul>
   <div class="nav-right">
-    <a class="nav-btn" onclick="showPage('blog')">Blog</a>
-    <a class="nav-btn admin-btn" onclick="showPage('admin')">⚙ Admin</a>
+    <a class="nav-btn" href="index.html" style="background: var(--gold-glow); border-color: var(--gold);">⚙ Tech Portfolio</a>
+    <a class="nav-btn admin-btn" href="artist.html">🎨 Artist Portfolio</a>
   </div>
+  <div class="nav-right">
+    <button id="theme-toggle" class="nav-btn theme-btn" onclick="toggleTheme()" title="Toggle Theme">☾</button>
+    </div>
 </nav>
 
-<!-- ==================== HOME PAGE ==================== -->
+
 <div id="home-page" class="page active">
 
 <section id="hero">
   <div class="hero-grid"></div>
   <div class="hero-orb"></div>
 
-  <!-- Primary rune ring -->
   <svg class="rune-ring" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
     <defs><path id="ring-path" d="M 200,10 a 190,190 0 1,1 -0.01,0"/></defs>
     <circle cx="200" cy="200" r="190" fill="none" stroke="#d4a843" stroke-width="1"/>
     <circle cx="200" cy="200" r="160" fill="none" stroke="#d4a843" stroke-width="0.5"/>
     <circle cx="200" cy="200" r="130" fill="none" stroke="#d4a843" stroke-width="0.3"/>
-    <!-- Notches -->
+
     <g stroke="#d4a843" stroke-width="1">
       <line x1="200" y1="10"  x2="200" y2="25"/>
       <line x1="390" y1="200" x2="375" y2="200"/>
@@ -60,7 +61,6 @@
     </text>
   </svg>
 
-  <!-- Counter-rotating second ring -->
   <svg class="rune-ring-2" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
     <defs><path id="ring-path2" d="M 150,8 a 142,142 0 1,1 -0.01,0"/></defs>
     <circle cx="150" cy="150" r="142" fill="none" stroke="#d4a843" stroke-width="0.8" stroke-dasharray="4 12"/>
@@ -127,7 +127,6 @@
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
   <div class="section-label reveal">01 — About</div>
   <div class="section-title reveal">About Me</div>
@@ -167,10 +166,9 @@
 
 <div class="gothic-divider">✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦</div>
 
-<!-- PROJECTS -->
 <section id="projects" style="position:relative;">
   <div class="projects-section-bg"></div>
-  <!-- 3D floating hex decorations -->
+
   <svg class="geo-float" style="top:5%;right:2%;width:120px;height:120px;" viewBox="0 0 100 100">
     <polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" fill="none" stroke="#d4a843" stroke-width="1"/>
     <polygon points="50,20 80,35 80,65 50,80 20,65 20,35" fill="none" stroke="#d4a843" stroke-width="0.5"/>
@@ -185,7 +183,7 @@
   <div class="section-subtitle reveal">Code forged with purpose and precision</div>
 
   <div class="projects-grid">
-    <!-- Featured project -->
+
     <div class="proj-card proj-featured reveal">
       <div class="proj-visual">
         <div class="proj-visual-inner">
@@ -213,7 +211,6 @@
       </div>
     </div>
 
-    <!-- Project 002 -->
     <div class="proj-card reveal" style="transition-delay:0.08s">
       <div class="proj-num">002</div>
       <span class="proj-icon">💬</span>
@@ -986,7 +983,66 @@ function handleContact(e) {
 // ===== INIT =====
 window.addEventListener('DOMContentLoaded', () => {
   attachSounds();
+}
+);
+// ===== THEME TOGGLE (PARCHMENT / NOIR) =====
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light-mode');
+  localStorage.setItem('portfolio-theme', isLight ? 'light' : 'dark');
+  document.getElementById('theme-toggle').textContent = isLight ? '☼' : '☾';
+  if (typeof playClickSound === 'function') playClickSound();
+}
+
+// Check saved theme on load
+window.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('portfolio-theme');
+  if (savedTheme === 'light') {
+    document.body.classList.add('light-mode');
+    const toggleBtn = document.getElementById('theme-toggle');
+    if (toggleBtn) toggleBtn.textContent = '☼';
+  }
 });
+
+// ===== OVERRIDE DRAW STARS FOR LIGHT MODE COMPATIBILITY =====
+// Find your existing drawStars() function and replace it with this updated one:
+function drawStars() {
+  ctx.clearRect(0, 0, W, H);
+  const isLight = document.body.classList.contains('light-mode'); // Detect theme
+  
+  stars.forEach(s => {
+    s.z -= s.speed;
+    if (s.z <= 0) s.z = W;
+    const px = (s.x / s.z) * W + W/2 + mouseX * 100;
+    const py = (s.y / s.z) * H + H/2 + mouseY * 100;
+    const r = s.size * (1 - s.z / W);
+    const alpha = 1 - s.z / W;
+    if (px < -10 || px > W+10 || py < -10 || py > H+10) return;
+    
+    const grd = ctx.createRadialGradient(px, py, 0, px, py, r * 3);
+    
+    // Adjust particle colors based on theme
+    let col1, col2;
+    if (isLight) {
+      // Dark ink and deep gold for light mode
+      col1 = s.hue === 200 || s.hue === 10 ? `rgba(184,134,26,${alpha * 0.8})` : `rgba(26,26,36,${alpha * 0.7})`;
+      col2 = `rgba(0,0,0,${alpha * 0.9})`;
+    } else {
+      // Original neon/gold for dark mode
+      col1 = s.hue === 200 ? `rgba(0,229,255,${alpha * 0.7})` : (s.hue === 10 ? `rgba(192,57,43,${alpha * 0.7})` : `rgba(212,168,67,${alpha * 0.9})`);
+      col2 = s.hue === 200 ? `rgba(180,240,255,${alpha})` : (s.hue === 10 ? `rgba(255,180,180,${alpha})` : `rgba(255,240,200,${alpha})`);
+    }
+
+    grd.addColorStop(0, col1);
+    grd.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.beginPath(); ctx.arc(px, py, r*3, 0, Math.PI*2);
+    ctx.fillStyle = grd; ctx.fill();
+    
+    ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI*2);
+    ctx.fillStyle = col2; ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+
 </script>
 </body>
 </html>

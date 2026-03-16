@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Abdul Rafay — Artist Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700;900&family=JetBrains+Mono:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400;1,600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<canvas id="starfield"></canvas>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="toast"></div>
+
+<nav>
+  <a class="nav-logo" href="#hero">Abdul Rafay</a>
+  <ul class="nav-links">
+    <li><a href="#about">The Artist</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#exhibitions">Exhibitions</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a class="nav-btn admin-btn" href="index.html">⚙ Tech Portfolio</a>
+    <a class="nav-btn" href="artist.html" style="background: var(--gold-glow); border-color: var(--gold);">🎨 Artist Portfolio</a>
+  </div>
+  <div class="nav-right">
+    <button id="theme-toggle" class="nav-btn theme-btn" onclick="toggleTheme()" title="Toggle Theme">☾</button>
+    
+    </div>
+</nav>
+
+<div id="home-page" class="page active">
+
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb" style="background: radial-gradient(circle, rgba(212,168,67,0.14) 0%, rgba(192,57,43,0.08) 40%, transparent 70%);"></div>
+
+  <svg class="rune-ring" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <defs><path id="ring-path" d="M 200,10 a 190,190 0 1,1 -0.01,0"/></defs>
+    <circle cx="200" cy="200" r="190" fill="none" stroke="#d4a843" stroke-width="1"/>
+    <circle cx="200" cy="200" r="160" fill="none" stroke="#d4a843" stroke-width="0.5"/>
+    <text font-family="UnifrakturMaguntia" font-size="20" fill="#d4a843">
+      <textPath href="#ring-path">✦ Canvas ✦ Calligraphy ✦ Form ✦ Flow ✦ Ink ✦ Gold ✦ Vision ✦ </textPath>
+    </text>
+  </svg>
+
+  <svg class="rune-ring-2" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+    <defs><path id="ring-path2" d="M 150,8 a 142,142 0 1,1 -0.01,0"/></defs>
+    <circle cx="150" cy="150" r="142" fill="none" stroke="#d4a843" stroke-width="0.8" stroke-dasharray="4 12"/>
+    <text font-family="UnifrakturMaguntia" font-size="16" fill="#d4a843">
+      <textPath href="#ring-path2">— Master Calligrapher — Digital Artist — Pakistan —</textPath>
+    </text>
+  </svg>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow">Visual Symphony · Est. 2022</div>
+    <div class="hero-title" style="font-size: clamp(3.5rem, 6.5vw, 8rem);">The Calligrapher's<br><span> Canvas</span></div>
+    <div class="hero-title-sub">Abdul Rafay</div>
+    <div class="hero-title-gothic">Where traditional ink meets digital mastery</div>
+    <p class="hero-desc">Gold Medalist Calligrapher and Digital Artist. Exploring the profound depths of visual hierarchy, from classical strokes to modern digital canvases.</p>
+    <div class="hero-badges">
+      <span class="badge gold">🥇 Gold Medalist</span>
+      <span class="badge">🏆 3x National Winner</span>
+      <span class="badge">📚 4+ Book Titles</span>
+      <span class="badge">CEO Gudaz</span>
+    </div>
+    <div class="hero-btns">
+      <a href="#gallery" class="btn btn-gold">Enter Gallery</a>
+      <a href="#contact" class="btn btn-ghost">Commission Work</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="avatar-3d-wrap" id="avatar3d">
+      <div class="avatar-3d-inner">
+        <div class="avatar-frame">
+          <img class="avatar-photo" src="rafay.jpg" alt="Abdul Rafay - Art Profile" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>
+          <div class="avatar-placeholder" style="display:none; position:absolute; inset:0;">
+             <div class="avatar-placeholder-icon">✒️</div>
+             <div class="avatar-placeholder-text">Artistic Vision</div>
+          </div>
+          <span class="corner-rune tl">✦</span>
+          <span class="corner-rune tr">✦</span>
+          <span class="corner-rune bl">✦</span>
+          <span class="corner-rune br">✦</span>
+        </div>
+      </div>
+      <div class="avatar-glow"></div>
+
+      <div class="particle-ring">
+        <div class="particle" style="top:0;left:50%;"></div>
+        <div class="particle" style="top:50%;right:0;"></div>
+        <div class="particle" style="bottom:0;left:50%;"></div>
+        <div class="particle" style="top:50%;left:0;"></div>
+      </div>
+      <div class="float-chip chip-medal">
+        <strong>🥇</strong>
+        <span>Gold Medalist</span>
+      </div>
+      <div class="float-chip chip-code">
+        <strong>CEO</strong>
+        <span>Gudaz</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-ind">
+    <div class="scroll-line"></div>
+    <span>Scroll Down</span>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-label reveal">01 — The Artist</div>
+  <div class="section-title reveal">Visual Heritage</div>
+  <div class="section-subtitle reveal">A pursuit of perfection in every stroke</div>
+  <div class="about-layout">
+    <div class="about-text reveal">
+      <p>I am <strong>Abdul Rafay</strong>, a nationally and internationally recognized calligrapher and digital artist based in Pakistan. My journey is defined by a relentless dedication to the mastery of form, balance, and aesthetic profoundness.</p>
+      <p>Having been honored to have my artwork selected alongside legendary figures such as Shabbir Ahmed Zia, <strong>Ustad Shafiq-uz-Zaman</strong> (the calligrapher of Masjid-e-Nabvi), I treat the canvas as a sacred space where tradition and innovation converge.</p>
+      <p>Beyond personal creation, I am deeply invested in the global art community. As the CEO of <strong>Gudaz</strong>, I host international online calligraphy contests, and through <strong>CanvasGali</strong>, I am building platforms to elevate visual artists worldwide.</p>
+    </div>
+    <div class="stats-grid reveal" style="transition-delay:0.2s">
+      <div class="stat-block"><strong>3x</strong><span>National Winner</span></div>
+      <div class="stat-block"><strong>4+</strong><span>Book Titles Illustrated</span></div>
+      <div class="stat-block wide" style="background: linear-gradient(135deg, rgba(18,10,20,0.85), rgba(28,10,30,0.85));">
+        <div class="medal-content">
+          <span class="medal-icon">🥇</span>
+          <div>
+            <strong style="font-size:1.3rem;">Gold Medalist Calligrapher</strong>
+            <span>Awarded for exceptional mastery and creative excellence in classical and modern forms.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gothic-divider">✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦</div>
+
+<section id="gallery">
+  <div class="section-label reveal">02 — The Gallery</div>
+  <div class="section-title reveal">Selected Works</div>
+  <div class="section-subtitle reveal">Calligraphy, illustrations, and conceptual drafts</div>
+  <div class="gallery-grid reveal">
+    <div class="gal-item" style="grid-row:1/3">
+      <img src="https://via.placeholder.com/600x800/1a0d00/d4a843?text=Classical+Calligraphy" class="gal-bg" style="object-fit: cover; width: 100%; height: 100%;" alt="Classical Calligraphy Series" />
+      <div class="gal-overlay">
+        <h4>Classical Calligraphy Series</h4>
+        <p>Featured alongside Ustad Shafiq-uz-Zaman</p>
+      </div>
+    </div>
+    
+    <div class="gal-item">
+      <img src="https://via.placeholder.com/600x600/001508/d4a843?text=Kite+Runner" class="gal-bg" style="object-fit: cover; width: 100%; height: 100%;" alt="The Kite Runner Concept" />
+      <div class="gal-overlay">
+        <h4>The Kite Runner</h4>
+        <p>Book Cover Concept Illustration</p>
+      </div>
+    </div>
+    
+    <div class="gal-item">
+      <img src="https://via.placeholder.com/600x600/1a0800/d4a843?text=Gold+Medal" class="gal-bg" style="object-fit: cover; width: 100%; height: 100%;" alt="National Gold Medal Piece" />
+      <div class="gal-overlay">
+        <h4>National Gold Medal Piece</h4>
+        <p>Award-winning Mixed Media</p>
+      </div>
+    </div>
+    
+    <div class="gal-item" style="grid-row:1/3">
+      <img src="https://via.placeholder.com/600x800/100020/d4a843?text=CanvasGali" class="gal-bg" style="object-fit: cover; width: 100%; height: 100%;" alt="CanvasGali Visual Identity" />
+      <div class="gal-overlay">
+        <h4>CanvasGali Visual Identity</h4>
+        <p>Brand Design & Typography</p>
+      </div>
+    </div>
+    
+    <div class="gal-item">
+      <img src="https://via.placeholder.com/600x600/00101a/d4a843?text=Urdu+Poetry" class="gal-bg" style="object-fit: cover; width: 100%; height: 100%;" alt="Urdu Poetry Anthology" />
+      <div class="gal-overlay">
+        <h4>Urdu Poetry Anthology</h4>
+        <p>Interior Typesetting & Calligraphy</p>
+      </div>
+    </div>
+    
+    <div class="gal-item">
+      <img src="sign.png" class="gal-bg" style="object-fit: cover; width: 100%; height: 100%;" alt="Gudaz Exhibition Header" />
+      <div class="gal-overlay">
+        <h4>Gudaz Exhibition Header</h4>
+        <p>Digital Composition</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gothic-divider">✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦</div>
+
+<section id="exhibitions" style="position:relative;">
+  <div class="projects-section-bg"></div>
+  <div class="section-label reveal">03 — Platforms & Exhibitions</div>
+  <div class="section-title reveal">Global Impact</div>
+  <div class="section-subtitle reveal">Fostering the international art community</div>
+
+  <div class="projects-grid">
+    <div class="proj-card proj-featured reveal">
+      <div class="proj-visual" style="background: linear-gradient(135deg, #180a00, #301400);">
+        <div class="proj-visual-inner" style="display:flex; align-items:center; justify-content:center; height:100%; animation:none;">
+          <span style="font-size: 6rem; filter: drop-shadow(0 0 20px rgba(212,168,67,0.4));">🏆</span>
+        </div>
+      </div>
+      <div class="proj-content">
+        <div class="proj-num">001 — Directing</div>
+        <span class="proj-icon">👑</span>
+        <h3 class="proj-title">CEO of Gudaz</h3>
+        <p class="proj-desc">Spearheading international online calligraphy competitions. Gudaz serves as a bridge connecting master calligraphers and emerging talents across borders, celebrating the timeless heritage of the written word.</p>
+        <div class="proj-tags"><span class="proj-tag">Exhibition</span><span class="proj-tag">Leadership</span><span class="proj-tag">International</span></div>
+      </div>
+    </div>
+
+    <div class="proj-card proj-featured reveal">
+      <div class="proj-content">
+        <div class="proj-num">002 — Platform</div>
+        <span class="proj-icon">🎨</span>
+        <h3 class="proj-title">CanvasGali Development</h3>
+        <p class="proj-desc">A visionary art-focused platform currently in development. Designed to be a thriving ecosystem for artists to showcase, connect, and elevate their visual portfolios.</p>
+        <div class="proj-tags"><span class="proj-tag">Startup</span><span class="proj-tag">Art Community</span><span class="proj-tag">Branding</span></div>
+      </div>
+      <div class="proj-visual" style="background: linear-gradient(135deg, #0a0a1a, #14143a); border-right: none; border-left: 1px solid var(--border);">
+        <div class="proj-visual-inner" style="display:flex; align-items:center; justify-content:center; height:100%; animation:none;">
+          <span style="font-size: 6rem; filter: drop-shadow(0 0 20px rgba(0,229,255,0.4));">🌌</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-label reveal">04 — Contact</div>
+  <div class="section-title reveal">Commission & Connect</div>
+  <div class="section-subtitle reveal">Open for exhibitions, commissions, and collaborations</div>
+  <div class="contact-layout">
+    <div class="reveal contact-left">
+      <p>Whether you are seeking a custom calligraphy piece, looking to invite me to an exhibition, or wish to discuss Gudaz and CanvasGali — my door is always open.</p>
+      <div class="social-list">
+        <a class="soc-item" href="https://www.linkedin.com/in/abdulrafayqar/" target="_blank">
+          <div class="soc-icon">in</div>
+          <div><span class="soc-name">LinkedIn</span><span class="soc-handle">abdulrafayqar</span></div>
+          <span class="soc-arrow">→</span>
+        </a>
+        <a class="soc-item" href="mailto:abdulrafay@example.com">
+          <div class="soc-icon">@</div>
+          <div><span class="soc-name">Email</span><span class="soc-handle">Inquiries & Commissions</span></div>
+          <span class="soc-arrow">→</span>
+        </a>
+      </div>
+    </div>
+    <form class="contact-form reveal" onsubmit="handleContact(event)" style="transition-delay:0.2s">
+      <div class="cf-row">
+        <div class="cf-group"><label>Name</label><input type="text" placeholder="Your name" required/></div>
+        <div class="cf-group"><label>Email</label><input type="email" placeholder="your@email.com" required/></div>
+      </div>
+      <div class="cf-group"><label>Subject</label><input type="text" placeholder="Commission / Exhibition / Hello"/></div>
+      <div class="cf-group"><label>Message</label><textarea placeholder="Tell me about your artistic vision..."></textarea></div>
+      <button class="btn-send" type="submit">Send Message →</button>
+    </form>
+  </div>
+</section>
+
+
+<footer>
+  <span class="footer-logo">Abdul Rafay</span>
+  <div class="footer-links">
+    <a href="index.html">Tech Portfolio</a>
+    <a href="https://www.linkedin.com/in/abdulrafayqar/" target="_blank">LinkedIn</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <span class="footer-copy">© 2026 Abdul Rafay · Crafted with ♥</span>
+</footer>
+
+</div><script>
+// ===== AUDIO ENGINE =====
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
+
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new AudioCtx();
+  return audioCtx;
+}
+
+function playTone(freq, type = 'sine', duration = 0.08, gain = 0.06) {
+  try {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    osc.connect(g);
+    g.connect(ctx.destination);
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    g.gain.setValueAtTime(gain, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+    osc.start();
+    osc.stop(ctx.currentTime + duration);
+  } catch(e) {}
+}
+
+function playHoverSound() { playTone(880, 'sine', 0.06, 0.04); }
+function playClickSound() {
+  playTone(660, 'triangle', 0.12, 0.07);
+  setTimeout(() => playTone(990, 'sine', 0.08, 0.04), 30);
+}
+function playSuccessSound() {
+  playTone(523, 'sine', 0.15, 0.06);
+  setTimeout(() => playTone(659, 'sine', 0.15, 0.06), 120);
+  setTimeout(() => playTone(784, 'sine', 0.2,  0.06), 240);
+}
+
+function attachSounds() {
+  const hoverSel = 'a, button, .proj-card, .gal-item, .soc-item, .stat-block, .nav-btn, .badge';
+  document.querySelectorAll(hoverSel).forEach(el => {
+    el.addEventListener('mouseenter', () => { document.body.classList.add('hovering'); playHoverSound(); });
+    el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+    el.addEventListener('click', () => playClickSound());
+  });
+}
+
+// ===== CUSTOM CURSOR =====
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0, my=0, rx=0, ry=0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+});
+function animRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+
+// ===== 3D STARFIELD =====
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+let W, H, stars = [];
+function initStars() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  stars = [];
+  for (let i = 0; i < 260; i++) {
+    stars.push({
+      x: (Math.random() - 0.5) * W * 2.2,
+      y: (Math.random() - 0.5) * H * 2.2,
+      z: Math.random() * W,
+      speed: Math.random() * 0.5 + 0.15,
+      size: Math.random() * 1.6 + 0.3,
+      hue: Math.random() < 0.20 ? 10 : 42  // Mostly gold, some red/warm tones for the art page
+    });
+  }
+}
+window.addEventListener('resize', initStars);
+initStars();
+let mouseX = 0, mouseY = 0;
+document.addEventListener('mousemove', e => {
+  mouseX = (e.clientX / window.innerWidth  - 0.5) * 0.5;
+  mouseY = (e.clientY / window.innerHeight - 0.5) * 0.5;
+});
+function drawStars() {
+  ctx.clearRect(0, 0, W, H);
+  stars.forEach(s => {
+    s.z -= s.speed;
+    if (s.z <= 0) s.z = W;
+    const px = (s.x / s.z) * W + W/2 + mouseX * 100;
+    const py = (s.y / s.z) * H + H/2 + mouseY * 100;
+    const r = s.size * (1 - s.z / W);
+    const alpha = 1 - s.z / W;
+    if (px < -10 || px > W+10 || py < -10 || py > H+10) return;
+    const grd = ctx.createRadialGradient(px, py, 0, px, py, r * 3);
+    const col = s.hue === 10
+      ? `rgba(192,57,43,${alpha * 0.7})`
+      : `rgba(212,168,67,${alpha * 0.9})`;
+    grd.addColorStop(0, col);
+    grd.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.beginPath(); ctx.arc(px, py, r*3, 0, Math.PI*2);
+    ctx.fillStyle = grd; ctx.fill();
+    ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI*2);
+    const cc = s.hue === 10 ? `rgba(255,180,180,${alpha})` : `rgba(255,240,200,${alpha})`;
+    ctx.fillStyle = cc; ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+// ===== 3D AVATAR TILT =====
+const av3d = document.getElementById('avatar3d');
+if (av3d) {
+  document.addEventListener('mousemove', e => {
+    const el = av3d.querySelector('.avatar-3d-inner');
+    if (!el) return;
+    const rect = av3d.getBoundingClientRect();
+    const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+    const dx = (e.clientX - cx) / rect.width;
+    const dy = (e.clientY - cy) / rect.height;
+    el.style.transform = `rotateY(${dx*14}deg) rotateX(${-dy*10}deg)`;
+  });
+  document.addEventListener('mouseleave', () => {
+    const el = av3d.querySelector('.avatar-3d-inner');
+    if (el) el.style.transform = 'rotateY(0) rotateX(0)';
+  });
+}
+
+// ===== 3D CARD TILT on proj-cards =====
+document.querySelectorAll('.proj-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width  - 0.5;
+    const y = (e.clientY - r.top)  / r.height - 0.5;
+    card.style.transform = `translateY(-10px) rotateY(${x*10}deg) rotateX(${-y*8}deg)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+// ===== INTERSECTION OBSERVER =====
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ===== SMOOTH SCROLL =====
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const h = a.getAttribute('href');
+    if (h === '#' || !document.querySelector(h)) return;
+    e.preventDefault();
+    document.querySelector(h).scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// ===== TOAST =====
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ===== CONTACT =====
+function handleContact(e) {
+  e.preventDefault();
+  playSuccessSound();
+  toast('✦ Message sent — I will review your commission request shortly.');
+}
+
+// ===== INIT =====
+window.addEventListener('DOMContentLoaded', () => {
+  attachSounds();
+}
+);
+// ===== THEME TOGGLE (PARCHMENT / NOIR) =====
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light-mode');
+  localStorage.setItem('portfolio-theme', isLight ? 'light' : 'dark');
+  document.getElementById('theme-toggle').textContent = isLight ? '☼' : '☾';
+  if (typeof playClickSound === 'function') playClickSound();
+}
+
+// Check saved theme on load
+window.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('portfolio-theme');
+  if (savedTheme === 'light') {
+    document.body.classList.add('light-mode');
+    const toggleBtn = document.getElementById('theme-toggle');
+    if (toggleBtn) toggleBtn.textContent = '☼';
+  }
+});
+
+// ===== OVERRIDE DRAW STARS FOR LIGHT MODE COMPATIBILITY =====
+// Find your existing drawStars() function and replace it with this updated one:
+function drawStars() {
+  ctx.clearRect(0, 0, W, H);
+  const isLight = document.body.classList.contains('light-mode'); // Detect theme
+  
+  stars.forEach(s => {
+    s.z -= s.speed;
+    if (s.z <= 0) s.z = W;
+    const px = (s.x / s.z) * W + W/2 + mouseX * 100;
+    const py = (s.y / s.z) * H + H/2 + mouseY * 100;
+    const r = s.size * (1 - s.z / W);
+    const alpha = 1 - s.z / W;
+    if (px < -10 || px > W+10 || py < -10 || py > H+10) return;
+    
+    const grd = ctx.createRadialGradient(px, py, 0, px, py, r * 3);
+    
+    // Adjust particle colors based on theme
+    let col1, col2;
+    if (isLight) {
+      // Dark ink and deep gold for light mode
+      col1 = s.hue === 200 || s.hue === 10 ? `rgba(184,134,26,${alpha * 0.8})` : `rgba(26,26,36,${alpha * 0.7})`;
+      col2 = `rgba(0,0,0,${alpha * 0.9})`;
+    } else {
+      // Original neon/gold for dark mode
+      col1 = s.hue === 200 ? `rgba(0,229,255,${alpha * 0.7})` : (s.hue === 10 ? `rgba(192,57,43,${alpha * 0.7})` : `rgba(212,168,67,${alpha * 0.9})`);
+      col2 = s.hue === 200 ? `rgba(180,240,255,${alpha})` : (s.hue === 10 ? `rgba(255,180,180,${alpha})` : `rgba(255,240,200,${alpha})`);
+    }
+
+    grd.addColorStop(0, col1);
+    grd.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.beginPath(); ctx.arc(px, py, r*3, 0, Math.PI*2);
+    ctx.fillStyle = grd; ctx.fill();
+    
+    ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI*2);
+    ctx.fillStyle = col2; ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+
+</script>
+
+</body>
+</html>
