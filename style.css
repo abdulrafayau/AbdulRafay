@@ -1207,3 +1207,47 @@ footer::before {
   footer { flex-direction: column; gap: 1.5rem; text-align: center; }
   .posts-grid { grid-template-columns: 1fr; padding: 2rem; }
 }
+/* ============================================================
+   LIGHT MODE: PARCHMENT & INK AESTHETIC
+   ============================================================ */
+body.light-mode {
+  --black: #fcfbf9; /* Ivory background */
+  --dark: #f4f1ea;  /* Parchment */
+  --card: #ffffff;
+  --card2: #fdfdfc;
+  --border: #e2dcd0;
+  --border2: #d4cbb8;
+
+  /* Deepen gold slightly for contrast on light background */
+  --gold: #b8861a;
+  --gold2: #d4a843;
+  --gold-glow: rgba(184, 134, 26, 0.12);
+
+  /* Text becomes dark ink */
+  --text: #1a1a24;
+  --text2: #2a2a3a;
+  --muted: #5a5a6a;
+  --muted2: #7a7a8a;
+
+  /* Gradients */
+  --grad-dark: linear-gradient(135deg, var(--black), var(--dark));
+  --grad-card: linear-gradient(135deg, var(--card), var(--card2));
+}
+
+/* Adjustments for specific elements in light mode */
+body.light-mode .nav-logo { text-shadow: none; }
+body.light-mode nav { background: rgba(252, 251, 249, 0.85); }
+body.light-mode .stat-block:hover { box-shadow: 0 15px 40px rgba(0,0,0,0.08), 0 0 20px rgba(184,134,26,0.15); }
+body.light-mode .proj-card:hover { box-shadow: 0 20px 50px rgba(0,0,0,0.08), 0 0 20px rgba(184,134,26,0.15); }
+body.light-mode .blog-feat:hover, body.light-mode .post-card:hover { box-shadow: 0 20px 50px rgba(0,0,0,0.08); }
+body.light-mode .float-chip { background: rgba(255, 255, 255, 0.95); }
+body.light-mode .avatar-frame::after { background: linear-gradient(to bottom, transparent 60%, rgba(252,251,249,0.9) 100%); }
+body.light-mode .gal-overlay { background: linear-gradient(to top, rgba(252,251,249,0.95) 0%, transparent 60%); }
+body.light-mode .split-pane:hover { background: rgba(244, 241, 234, 0.6); }
+
+.theme-btn {
+  font-size: 1rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 50%;
+  border: 1px solid var(--border2);
+}
