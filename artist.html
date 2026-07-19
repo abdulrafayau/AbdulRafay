@@ -7,16 +7,35 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700;900&family=JetBrains+Mono:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400;1,600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="style.css"/>
+<!-- GSAP & ScrollTrigger for animations -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
+<!-- Preloader Overlay -->
+<div id="preloader">
+  <img src="sign.png" alt="Abdul Rafay Signature" class="loader-sig" />
+</div>
+
+<!-- Scroll Progress Bar -->
+<div id="scroll-progress"></div>
+
+<!-- Sticky Section Label -->
+<div id="sticky-section-label">00 / Intro</div>
+
 <canvas id="starfield"></canvas>
 <div id="cursor"></div>
-<div id="cursor-ring"></div>
+<div id="cursor-ring"><span class="cursor-text">View ↗</span></div>
 <div id="toast"></div>
 
 <nav>
-  <a class="nav-logo" href="#hero">Abdul Rafay</a>
+  <div style="display: flex; align-items: center;">
+    <img src="sign.png" class="nav-sig-logo" id="nav-sig-logo" alt="Calligraphy Mark" style="opacity: 0;" />
+    <a class="nav-logo" href="#hero">Abdul Rafay</a>
+  </div>
   <ul class="nav-links">
     <li><a href="#about">The Artist</a></li>
     <li><a href="#gallery">Gallery</a></li>
@@ -28,9 +47,9 @@
     <a class="nav-btn" href="artist.html" style="background: var(--gold-glow); border-color: var(--gold);">🎨 Artist Portfolio</a>
   </div>
   <div class="nav-right">
+    <button id="mute-toggle" class="nav-btn theme-btn" onclick="toggleMute()" title="Mute/Unmute">🔇</button>
     <button id="theme-toggle" class="nav-btn theme-btn" onclick="toggleTheme()" title="Toggle Theme">☾</button>
-    
-    </div>
+  </div>
 </nav>
 
 <div id="home-page" class="page active">
@@ -140,7 +159,7 @@
   </div>
 </section>
 
-<div class="gothic-divider">✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦</div>
+<div class="gothic-divider"></div>
 
 <section id="gallery">
   <div class="section-label reveal">02 — The Gallery</div>
@@ -197,7 +216,7 @@
   </div>
 </section>
 
-<div class="gothic-divider">✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦</div>
+<div class="gothic-divider"></div>
 
 <section id="exhibitions" style="position:relative;">
   <div class="projects-section-bg"></div>
@@ -238,6 +257,8 @@
   </div>
 </section>
 
+<div class="gothic-divider"></div>
+
 <section id="contact">
   <div class="section-label reveal">04 — Contact</div>
   <div class="section-title reveal">Commission & Connect</div>
@@ -251,9 +272,9 @@
           <div><span class="soc-name">LinkedIn</span><span class="soc-handle">abdulrafayqar</span></div>
           <span class="soc-arrow">→</span>
         </a>
-        <a class="soc-item" href="mailto:abdulrafay@example.com">
+        <a class="soc-item" href="mailto:abdulrafayau@gmail.com">
           <div class="soc-icon">@</div>
-          <div><span class="soc-name">Email</span><span class="soc-handle">Inquiries & Commissions</span></div>
+          <div><span class="soc-name">Email</span><span class="soc-handle">abdulrafayau@gmail.com</span></div>
           <span class="soc-arrow">→</span>
         </a>
       </div>
@@ -270,9 +291,13 @@
   </div>
 </section>
 
-
 <footer>
-  <span class="footer-logo">Abdul Rafay</span>
+  <div style="text-align: center;">
+    <span class="footer-logo">Abdul Rafay</span>
+    <div class="footer-seal-wrap">
+      <img src="sign.png" class="footer-seal" alt="Calligraphy Seal" />
+    </div>
+  </div>
   <div class="footer-links">
     <a href="index.html">Tech Portfolio</a>
     <a href="https://www.linkedin.com/in/abdulrafayqar/" target="_blank">LinkedIn</a>
@@ -281,8 +306,10 @@
   <span class="footer-copy">© 2026 Abdul Rafay · Crafted with ♥</span>
 </footer>
 
-</div><script>
-// ===== AUDIO ENGINE =====
+</div>
+
+<script>
+// ===== AUDIO ENGINE (Web Audio API — no external files needed) =====
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
 let audioCtx = null;
 
@@ -307,7 +334,9 @@ function playTone(freq, type = 'sine', duration = 0.08, gain = 0.06) {
   } catch(e) {}
 }
 
-function playHoverSound() { playTone(880, 'sine', 0.06, 0.04); }
+function playHoverSound() {
+  playTone(880, 'sine', 0.06, 0.04);
+}
 function playClickSound() {
   playTone(660, 'triangle', 0.12, 0.07);
   setTimeout(() => playTone(990, 'sine', 0.08, 0.04), 30);
@@ -318,35 +347,108 @@ function playSuccessSound() {
   setTimeout(() => playTone(784, 'sine', 0.2,  0.06), 240);
 }
 
+// Wind/Whoosh Sound using noise buffer
+let isMuted = true;
+if (sessionStorage.getItem('portfolio-mute') === 'false') {
+  isMuted = false;
+}
+
+function playWhooshSound() {
+  if (isMuted) return;
+  try {
+    const ctx = getAudioCtx();
+    const bufferSize = ctx.sampleRate * 0.8;
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = Math.random() * 2 - 1;
+    }
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(300, ctx.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(900, ctx.currentTime + 0.3);
+    filter.frequency.exponentialRampToValueAtTime(180, ctx.currentTime + 0.8);
+    filter.Q.setValueAtTime(1.5, ctx.currentTime);
+
+    const gainNode = ctx.createGain();
+    gainNode.gain.setValueAtTime(0, ctx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.12, ctx.currentTime + 0.2);
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.8);
+
+    noise.connect(filter);
+    filter.connect(gainNode);
+    gainNode.connect(ctx.destination);
+
+    noise.start();
+  } catch (e) {}
+}
+
+function toggleMute() {
+  isMuted = !isMuted;
+  sessionStorage.setItem('portfolio-mute', isMuted ? 'true' : 'false');
+  updateMuteButton();
+  if (!isMuted) {
+    playClickSound();
+  }
+}
+
+function updateMuteButton() {
+  const btn = document.getElementById('mute-toggle');
+  if (btn) {
+    btn.textContent = isMuted ? '🔇' : '🔈';
+  }
+}
+
+// Attach hover sounds
 function attachSounds() {
   const hoverSel = 'a, button, .proj-card, .gal-item, .soc-item, .stat-block, .nav-btn, .badge';
   document.querySelectorAll(hoverSel).forEach(el => {
-    el.addEventListener('mouseenter', () => { document.body.classList.add('hovering'); playHoverSound(); });
+    el.addEventListener('mouseenter', () => { 
+      document.body.classList.add('hovering'); 
+      playHoverSound(); 
+    });
     el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
     el.addEventListener('click', () => playClickSound());
   });
 }
 
-// ===== CUSTOM CURSOR =====
+// ===== CUSTOM CONTEXTUAL CURSOR =====
 const cur = document.getElementById('cursor');
 const ring = document.getElementById('cursor-ring');
-let mx=0, my=0, rx=0, ry=0;
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cur.style.left = mx + 'px'; cur.style.top = my + 'px';
-});
-function animRing() {
-  rx += (mx - rx) * 0.12;
-  ry += (my - ry) * 0.12;
-  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-  requestAnimationFrame(animRing);
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+if (window.matchMedia('(pointer: coarse)').matches) {
+  if (cur) cur.style.display = 'none';
+  if (ring) ring.style.display = 'none';
+} else {
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    if (cur) {
+      cur.style.left = mx + 'px';
+      cur.style.top = my + 'px';
+    }
+  });
+
+  function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    if (ring) {
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+    }
+    requestAnimationFrame(animRing);
+  }
+  animRing();
 }
-animRing();
 
 // ===== 3D STARFIELD =====
 const canvas = document.getElementById('starfield');
 const ctx = canvas.getContext('2d');
 let W, H, stars = [];
+
 function initStars() {
   W = canvas.width  = window.innerWidth;
   H = canvas.height = window.innerHeight;
@@ -358,137 +460,22 @@ function initStars() {
       z: Math.random() * W,
       speed: Math.random() * 0.5 + 0.15,
       size: Math.random() * 1.6 + 0.3,
-      hue: Math.random() < 0.20 ? 10 : 42  // Mostly gold, some red/warm tones for the art page
+      hue: Math.random() < 0.20 ? 10 : 42
     });
   }
 }
 window.addEventListener('resize', initStars);
 initStars();
+
 let mouseX = 0, mouseY = 0;
 document.addEventListener('mousemove', e => {
   mouseX = (e.clientX / window.innerWidth  - 0.5) * 0.5;
   mouseY = (e.clientY / window.innerHeight - 0.5) * 0.5;
 });
+
 function drawStars() {
   ctx.clearRect(0, 0, W, H);
-  stars.forEach(s => {
-    s.z -= s.speed;
-    if (s.z <= 0) s.z = W;
-    const px = (s.x / s.z) * W + W/2 + mouseX * 100;
-    const py = (s.y / s.z) * H + H/2 + mouseY * 100;
-    const r = s.size * (1 - s.z / W);
-    const alpha = 1 - s.z / W;
-    if (px < -10 || px > W+10 || py < -10 || py > H+10) return;
-    const grd = ctx.createRadialGradient(px, py, 0, px, py, r * 3);
-    const col = s.hue === 10
-      ? `rgba(192,57,43,${alpha * 0.7})`
-      : `rgba(212,168,67,${alpha * 0.9})`;
-    grd.addColorStop(0, col);
-    grd.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.beginPath(); ctx.arc(px, py, r*3, 0, Math.PI*2);
-    ctx.fillStyle = grd; ctx.fill();
-    ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI*2);
-    const cc = s.hue === 10 ? `rgba(255,180,180,${alpha})` : `rgba(255,240,200,${alpha})`;
-    ctx.fillStyle = cc; ctx.fill();
-  });
-  requestAnimationFrame(drawStars);
-}
-drawStars();
-
-// ===== 3D AVATAR TILT =====
-const av3d = document.getElementById('avatar3d');
-if (av3d) {
-  document.addEventListener('mousemove', e => {
-    const el = av3d.querySelector('.avatar-3d-inner');
-    if (!el) return;
-    const rect = av3d.getBoundingClientRect();
-    const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
-    const dx = (e.clientX - cx) / rect.width;
-    const dy = (e.clientY - cy) / rect.height;
-    el.style.transform = `rotateY(${dx*14}deg) rotateX(${-dy*10}deg)`;
-  });
-  document.addEventListener('mouseleave', () => {
-    const el = av3d.querySelector('.avatar-3d-inner');
-    if (el) el.style.transform = 'rotateY(0) rotateX(0)';
-  });
-}
-
-// ===== 3D CARD TILT on proj-cards =====
-document.querySelectorAll('.proj-card').forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const r = card.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width  - 0.5;
-    const y = (e.clientY - r.top)  / r.height - 0.5;
-    card.style.transform = `translateY(-10px) rotateY(${x*10}deg) rotateX(${-y*8}deg)`;
-  });
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = '';
-  });
-});
-
-// ===== INTERSECTION OBSERVER =====
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('in');
-    }
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-// ===== SMOOTH SCROLL =====
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const h = a.getAttribute('href');
-    if (h === '#' || !document.querySelector(h)) return;
-    e.preventDefault();
-    document.querySelector(h).scrollIntoView({ behavior: 'smooth' });
-  });
-});
-
-// ===== TOAST =====
-function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3500);
-}
-
-// ===== CONTACT =====
-function handleContact(e) {
-  e.preventDefault();
-  playSuccessSound();
-  toast('✦ Message sent — I will review your commission request shortly.');
-}
-
-// ===== INIT =====
-window.addEventListener('DOMContentLoaded', () => {
-  attachSounds();
-}
-);
-// ===== THEME TOGGLE (PARCHMENT / NOIR) =====
-function toggleTheme() {
-  const isLight = document.body.classList.toggle('light-mode');
-  localStorage.setItem('portfolio-theme', isLight ? 'light' : 'dark');
-  document.getElementById('theme-toggle').textContent = isLight ? '☼' : '☾';
-  if (typeof playClickSound === 'function') playClickSound();
-}
-
-// Check saved theme on load
-window.addEventListener('DOMContentLoaded', () => {
-  const savedTheme = localStorage.getItem('portfolio-theme');
-  if (savedTheme === 'light') {
-    document.body.classList.add('light-mode');
-    const toggleBtn = document.getElementById('theme-toggle');
-    if (toggleBtn) toggleBtn.textContent = '☼';
-  }
-});
-
-// ===== OVERRIDE DRAW STARS FOR LIGHT MODE COMPATIBILITY =====
-// Find your existing drawStars() function and replace it with this updated one:
-function drawStars() {
-  ctx.clearRect(0, 0, W, H);
-  const isLight = document.body.classList.contains('light-mode'); // Detect theme
+  const isLight = document.body.classList.contains('light-mode');
   
   stars.forEach(s => {
     s.z -= s.speed;
@@ -500,15 +487,11 @@ function drawStars() {
     if (px < -10 || px > W+10 || py < -10 || py > H+10) return;
     
     const grd = ctx.createRadialGradient(px, py, 0, px, py, r * 3);
-    
-    // Adjust particle colors based on theme
     let col1, col2;
     if (isLight) {
-      // Dark ink and deep gold for light mode
       col1 = s.hue === 200 || s.hue === 10 ? `rgba(184,134,26,${alpha * 0.8})` : `rgba(26,26,36,${alpha * 0.7})`;
       col2 = `rgba(0,0,0,${alpha * 0.9})`;
     } else {
-      // Original neon/gold for dark mode
       col1 = s.hue === 200 ? `rgba(0,229,255,${alpha * 0.7})` : (s.hue === 10 ? `rgba(192,57,43,${alpha * 0.7})` : `rgba(212,168,67,${alpha * 0.9})`);
       col2 = s.hue === 200 ? `rgba(180,240,255,${alpha})` : (s.hue === 10 ? `rgba(255,180,180,${alpha})` : `rgba(255,240,200,${alpha})`);
     }
@@ -523,7 +506,139 @@ function drawStars() {
   });
   requestAnimationFrame(drawStars);
 }
+drawStars();
 
+// ===== 3D CARD TILT on proj-cards =====
+document.querySelectorAll('.proj-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width  - 0.5;
+    const y = (e.clientY - r.top)  / r.height - 0.5;
+    card.style.transform = `translateY(-10px) rotateY(${x*10}deg) rotateX(${-y*8}deg)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+// ===== TOAST =====
+function toast(msg) {
+  const t = document.getElementById('toast');
+  if (t) {
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3500);
+  }
+}
+
+// ===== CONTACT =====
+function handleContact(e) {
+  e.preventDefault();
+  playSuccessSound();
+  toast('✦ Message sent — I will review your commission request shortly.');
+}
+
+// ===== THEME TOGGLE (PARCHMENT / NOIR) =====
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light-mode');
+  localStorage.setItem('portfolio-theme', isLight ? 'light' : 'dark');
+  document.getElementById('theme-toggle').textContent = isLight ? '☼' : '☾';
+  if (typeof playClickSound === 'function') playClickSound();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('portfolio-theme');
+  if (savedTheme === 'light') {
+    document.body.classList.add('light-mode');
+    const toggleBtn = document.getElementById('theme-toggle');
+    if (toggleBtn) toggleBtn.textContent = '☼';
+  }
+});
+
+// ===== SCROLL PROGRESS & STICKY SIDE INDEX & MORPH TRIGGERS =====
+const sectionIndexMap = {
+  'hero': '00 / Intro',
+  'about': '01 / About',
+  'gallery': '02 / Gallery',
+  'exhibitions': '03 / Global',
+  'contact': '04 / Connect'
+};
+
+const observerOptions = {
+  root: null,
+  rootMargin: '-20% 0px -55% 0px',
+  threshold: 0
+};
+
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const label = sectionIndexMap[entry.target.id];
+      const labelEl = document.getElementById('sticky-section-label');
+      if (label && labelEl) {
+        labelEl.textContent = label;
+      }
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('section, #hero').forEach(sec => {
+  sectionObserver.observe(sec);
+});
+
+let morphSoundTriggered = false;
+
+window.addEventListener('scroll', () => {
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (winScroll / height) * 100;
+  const progressEl = document.getElementById('scroll-progress');
+  if (progressEl) progressEl.style.width = scrolled + '%';
+
+  // Sound triggers
+  const threshold = 150;
+  if (window.scrollY > threshold && !morphSoundTriggered) {
+    playWhooshSound();
+    morphSoundTriggered = true;
+  } else if (window.scrollY <= threshold && morphSoundTriggered) {
+    playWhooshSound();
+    morphSoundTriggered = false;
+  }
+
+  // Navbar signature logo fade on scroll
+  const scrollOffset = window.scrollY > 150;
+  const navSig = document.getElementById('nav-sig-logo');
+  if (navSig) navSig.style.opacity = scrollOffset ? '1' : '0';
+});
+
+// ===== PRELOADER TIMEOUT & INIT =====
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+      preloader.style.opacity = '0';
+      setTimeout(() => preloader.remove(), 500);
+    }
+  }, 1500);
+
+  // Initialize Lucide icons
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+
+  attachSounds();
+  updateMuteButton();
+
+  // Cursor hover hint for gal-items and cards
+  document.querySelectorAll('.gal-item, .proj-card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      document.body.classList.add('view-hovering');
+    });
+    card.addEventListener('mouseleave', () => {
+      document.body.classList.remove('view-hovering');
+    });
+  });
+});
 </script>
 
 </body>
