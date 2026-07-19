@@ -53,10 +53,10 @@ export function AboutView() {
           <motion.div className="bento-cell bento-span-4" variants={itemVariants} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <h4 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-mono)', color: 'var(--mughal-gold)', marginBottom: '1.5rem' }}>// NETWORK</h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <a href="https://linkedin.com/in/abdulrafayau" target="_blank" rel="noreferrer" style={{ color: 'var(--text-white)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--border-soft)' }}>
+              <a href="https://linkedin.com/in/abdulrafayau" target="_blank" rel="noreferrer" style={{ color: 'var(--text-white)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem', background: 'var(--bg-elevated)', borderRadius: '8px', border: '1px solid var(--border-soft)' }}>
                 <span style={{ color: 'var(--mughal-gold)' }}>in</span> LinkedIn
               </a>
-              <a href="https://github.com/abdulrafayau" target="_blank" rel="noreferrer" style={{ color: 'var(--text-white)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--border-soft)' }}>
+              <a href="https://github.com/abdulrafayau" target="_blank" rel="noreferrer" style={{ color: 'var(--text-white)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem', background: 'var(--bg-elevated)', borderRadius: '8px', border: '1px solid var(--border-soft)' }}>
                 <span style={{ color: 'var(--mughal-gold)' }}>gh</span> GitHub
               </a>
             </div>
@@ -125,9 +125,9 @@ export function AboutView() {
               When I'm not architecting distributed edge systems or training machine learning models, I channel my creativity into analogue disciplines.
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-              <span style={{ padding: '0.4rem 1rem', border: '1px solid var(--border-soft)', borderRadius: '100px', fontSize: '0.85rem', color: 'var(--text-white)', background: 'rgba(255,255,255,0.03)' }}>Classical Calligraphy</span>
-              <span style={{ padding: '0.4rem 1rem', border: '1px solid var(--border-soft)', borderRadius: '100px', fontSize: '0.85rem', color: 'var(--text-white)', background: 'rgba(255,255,255,0.03)' }}>Open Source Contribution</span>
-              <span style={{ padding: '0.4rem 1rem', border: '1px solid var(--border-soft)', borderRadius: '100px', fontSize: '0.85rem', color: 'var(--text-white)', background: 'rgba(255,255,255,0.03)' }}>System Design Theory</span>
+              <span style={{ padding: '0.4rem 1rem', border: '1px solid var(--border-soft)', borderRadius: '100px', fontSize: '0.85rem', color: 'var(--text-white)', background: 'var(--bg-elevated)' }}>Classical Calligraphy</span>
+              <span style={{ padding: '0.4rem 1rem', border: '1px solid var(--border-soft)', borderRadius: '100px', fontSize: '0.85rem', color: 'var(--text-white)', background: 'var(--bg-elevated)' }}>Open Source Contribution</span>
+              <span style={{ padding: '0.4rem 1rem', border: '1px solid var(--border-soft)', borderRadius: '100px', fontSize: '0.85rem', color: 'var(--text-white)', background: 'var(--bg-elevated)' }}>System Design Theory</span>
             </div>
           </motion.div>
         </motion.div>
