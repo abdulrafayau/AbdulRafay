@@ -112,8 +112,11 @@ export function Chatbot() {
             <div style={{
               display: 'flex',
               flexDirection: 'column',
-              background: 'rgba(255,255,255,0.02)',
-              borderBottom: '1px solid var(--border-soft)'
+              background: 'var(--bg-glass-md)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              borderBottom: '1px solid var(--border-soft)',
+              zIndex: 10
             }}>
               <div style={{ display: 'flex', gap: '8px', padding: '10px 14px' }}>
                 <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ff5f56' }} />
@@ -148,7 +151,9 @@ export function Chatbot() {
               {messages.map((msg, idx) => (
                 <div key={idx} style={{
                   alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start',
-                  background: msg.sender === 'user' ? 'linear-gradient(135deg, var(--mughal-gold), var(--punchy-violet))' : 'var(--bg-card)',
+                  background: msg.sender === 'user' ? 'linear-gradient(135deg, var(--mughal-gold), var(--punchy-violet))' : 'var(--bg-glass-md)',
+                  backdropFilter: msg.sender === 'bot' ? 'blur(12px)' : 'none',
+                  WebkitBackdropFilter: msg.sender === 'bot' ? 'blur(12px)' : 'none',
                   color: msg.sender === 'user' ? '#fff' : 'var(--text-white)',
                   padding: '0.8rem 1rem',
                   borderRadius: msg.sender === 'user' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
@@ -156,7 +161,7 @@ export function Chatbot() {
                   fontSize: '0.95rem',
                   lineHeight: 1.5,
                   border: msg.sender === 'bot' ? '1px solid var(--border-soft)' : 'none',
-                  boxShadow: msg.sender === 'user' ? '0 4px 15px rgba(138, 43, 226, 0.3)' : 'none'
+                  boxShadow: msg.sender === 'user' ? '0 4px 15px rgba(138, 43, 226, 0.3)' : '0 4px 15px rgba(0,0,0,0.05)'
                 }}>
                   {msg.text}
                 </div>
@@ -168,9 +173,12 @@ export function Chatbot() {
             <div style={{
               padding: '1rem',
               borderTop: '1px solid var(--border-soft)',
-              background: 'rgba(0,0,0,0.2)',
+              background: 'var(--bg-glass-md)',
+              backdropFilter: 'blur(15px)',
+              WebkitBackdropFilter: 'blur(15px)',
               display: 'flex',
-              gap: '0.5rem'
+              gap: '0.5rem',
+              zIndex: 10
             }}>
               <input
                 type="text"
