@@ -39,6 +39,20 @@ export default function App() {
   const [cmdOpen, setCmdOpen] = useState(false);
   const { scrollYProgress } = useScroll();
 
+  // Theme State Initialization
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('portfolio_theme') || 'dark';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('portfolio_theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
+
   useEffect(() => {
     initDB();
 
@@ -113,6 +127,8 @@ export default function App() {
         isLoggedIn={isLoggedIn}
         onCtaClick={handleCtaClick}
         onLogout={handleLogout}
+        theme={theme}
+        toggleTheme={toggleTheme}
       />
 
       <main style={{ position: 'relative', zIndex: 10, minHeight: 'calc(100vh - 120px)' }}>

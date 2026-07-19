@@ -53,7 +53,7 @@ export function MughalBackground() {
         width: '80vw', height: '80vw',
         background: 'radial-gradient(circle, rgba(0, 229, 255, 0.05) 0%, transparent 60%)',
         opacity: 0.8,
-        mixBlendMode: 'screen'
+        mixBlendMode: 'var(--blend-glow)'
       }} />
     </div>
   );
