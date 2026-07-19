@@ -90,6 +90,7 @@ export function Chatbot() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            className="ios-glass"
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -100,10 +101,7 @@ export function Chatbot() {
               right: '24px',
               width: 'min(350px, calc(100vw - 48px))',
               height: 'min(500px, calc(100vh - 120px))',
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border-soft)',
               borderRadius: 'var(--r-md)',
-              boxShadow: 'var(--shadow-lg)',
               display: 'flex',
               flexDirection: 'column',
               overflow: 'hidden',

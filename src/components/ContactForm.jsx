@@ -46,8 +46,8 @@ export function ContactForm({ onSuccess }) {
   };
 
   return (
-    <div className="form-card">
-      <div className="form-title">Send a Direct Message</div>
+    <div className="ios-glass" style={{ padding: '2.5rem', borderRadius: 'var(--r-xl)', position: 'relative', overflow: 'hidden' }}>
+      <h3 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '1.5rem', color: 'var(--text-white)' }}>Send a Direct Message</h3>
       <form onSubmit={handleSubmit}>
         <div className="form-row-2">
           <div className="form-group">

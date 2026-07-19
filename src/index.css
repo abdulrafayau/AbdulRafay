@@ -206,8 +206,19 @@ input:focus, textarea:focus { outline: none; border-color: var(--mughal-gold); b
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.05);
   border-radius: var(--r-xl);
   padding: 2.5rem; position: relative; overflow: hidden; transition: all 0.4s ease;
+  will-change: transform, box-shadow;
 }
 .bento-cell:hover { transform: translateY(-5px); box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); }
+
+[data-theme='light'] .bento-cell {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+[data-theme='light'] .bento-cell:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.7);
+}
 .bento-span-12 { grid-column: span 12; }
 .bento-span-8 { grid-column: span 8; }
 .bento-span-6 { grid-column: span 6; }

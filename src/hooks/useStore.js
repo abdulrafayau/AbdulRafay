@@ -8,7 +8,18 @@ export function useStore(key) {
     const unsub = DB.subscribe((e) => {
       if (e.detail.key === key) setData(DB.get(key));
     });
-    return unsub;
+
+    const handleStorage = (e) => {
+      if (e.key === `portfolio_${key}`) {
+        setData(DB.get(key));
+      }
+    };
+    window.addEventListener('storage', handleStorage);
+
+    return () => {
+      unsub();
+      window.removeEventListener('storage', handleStorage);
+    };
   }, [key]);
 
   return data;

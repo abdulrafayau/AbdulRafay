@@ -303,8 +303,8 @@ export function AdminView({ showToast }) {
   if (!isLoggedIn) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh', padding: '24px' }}>
-        <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-soft)', padding: '2.5rem', borderRadius: 'var(--r-xl)', width: '400px' }}>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '1.5rem', letterSpacing: '-0.02em' }}>Admin Core Gate</h2>
+        <div className="ios-glass" style={{ padding: '2.5rem', borderRadius: 'var(--r-xl)', width: '400px' }}>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '1.5rem', letterSpacing: '-0.02em', color: 'var(--text-white)' }}>Admin Core Gate</h2>
           <form onSubmit={handleLogin}>
             <div style={{ marginBottom: '1.25rem' }}>
               <label style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', display: 'block', marginBottom: '0.5rem' }}>Admin Identity</label>
@@ -454,8 +454,8 @@ export function AdminView({ showToast }) {
               </div>
             </div>
 
-            <div className="form-card">
-              <div className="form-title">System Status</div>
+            <div className="ios-glass" style={{ padding: '2rem', borderRadius: 'var(--r-md)' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '1rem', color: 'var(--text-white)' }}>System Status</h3>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.6 }}>
                 All systems active. Local client-side CRUD engine synced with active observer hooks. Authenticated session cookies restricted to sessionStorage parameters.
               </p>
