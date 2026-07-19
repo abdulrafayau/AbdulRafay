@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useStore } from '../hooks/useStore';
 
 export function ExperienceView() {
-  const experiences = useStore('experience') || [];
+  const experiences = useStore('experiences') || [];
 
   return (
     <motion.div
