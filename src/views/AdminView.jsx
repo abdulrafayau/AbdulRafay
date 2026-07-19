@@ -704,7 +704,7 @@ export function AdminView({ showToast }) {
                 {trusted.map(c => (
                   <div key={c.id} style={{ background: '#111', border: '1px solid var(--border-soft)', padding: '1rem', borderRadius: 'var(--r-md)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', position: 'relative' }}>
                     <div style={{ height: '60px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                      <img src={c.logoUrl} alt={c.name} style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+                      <img src={c.logoUrl} alt={c.name} style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain', borderRadius: '4px' }} />
                     </div>
                     <div style={{ fontWeight: 500, fontSize: '0.9rem' }}>{c.name}</div>
                     <button onClick={() => deleteTrusted(c.id)} style={{ position: 'absolute', top: '10px', right: '10px', background: 'var(--red)', color: 'white', border: 'none', borderRadius: '50%', width: '24px', height: '24px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>✕</button>

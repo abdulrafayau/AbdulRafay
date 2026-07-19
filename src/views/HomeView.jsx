@@ -165,7 +165,7 @@ export function HomeView() {
               {trusted.map((company, i) => (
                 <div key={`trust1-${i}`} className="ticker-item" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0 2rem' }}>
                   {company.logoUrl ? (
-                    <img src={company.logoUrl} alt={company.name} style={{ height: '32px', filter: 'brightness(0) invert(1)', opacity: 0.7 }} />
+                    <img src={company.logoUrl} alt={company.name} style={{ height: '32px', opacity: 0.7, borderRadius: '4px' }} />
                   ) : null}
                   <span style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--text-secondary)' }}>{company.name}</span>
                 </div>
@@ -175,7 +175,7 @@ export function HomeView() {
               {trusted.map((company, i) => (
                 <div key={`trust2-${i}`} className="ticker-item" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0 2rem' }}>
                   {company.logoUrl ? (
-                    <img src={company.logoUrl} alt={company.name} style={{ height: '32px', filter: 'brightness(0) invert(1)', opacity: 0.7 }} />
+                    <img src={company.logoUrl} alt={company.name} style={{ height: '32px', opacity: 0.7, borderRadius: '4px' }} />
                   ) : null}
                   <span style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--text-secondary)' }}>{company.name}</span>
                 </div>
